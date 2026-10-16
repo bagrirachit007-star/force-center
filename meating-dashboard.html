@@ -1,0 +1,3570 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FORCE CENTER</title>
+
+<style>
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+  font-family:Arial,sans-serif
+}
+
+body{
+  min-height:100vh;
+  color:#fff;
+  background:radial-gradient(circle at top,#18254a 0,#0b0d16 38%,#07080d 100%);
+}
+
+header{
+  position:sticky;
+  top:0;
+  z-index:10;
+  padding:18px 20px;
+  text-align:center;
+  background:rgba(10,12,22,.92);
+  backdrop-filter:blur(14px);
+  border-bottom:1px solid rgba(255,255,255,.1)
+}
+
+header h1{
+  font-size:30px;
+  letter-spacing:2px
+}
+
+header p{
+  color:#9da8c7;
+  margin-top:5px;
+  font-size:13px
+}
+
+.container{
+  max-width:1150px;
+  margin:auto;
+  padding:24px 16px
+}
+
+.welcome{
+  padding:24px;
+  border-radius:22px;
+  margin-bottom:18px;
+  background:linear-gradient(
+    135deg,
+    rgba(38,76,160,.55),
+    rgba(96,45,145,.32)
+  );
+  border:1px solid rgba(255,255,255,.12);
+  box-shadow:0 15px 45px rgba(0,0,0,.25)
+}
+
+.welcome h2{
+  font-size:25px
+}
+
+.welcome p{
+  color:#c5cbe0;
+  margin-top:7px
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:18px
+}
+
+.card{
+  background:rgba(18,20,31,.92);
+  border:1px solid rgba(255,255,255,.09);
+  border-radius:20px;
+  padding:20px;
+  margin-bottom:18px;
+  box-shadow:0 12px 35px rgba(0,0,0,.18)
+}
+
+.card h2{
+  font-size:19px;
+  margin-bottom:14px
+}
+
+.full{
+  grid-column:1/-1
+}
+
+.stats{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:10px
+}
+
+.stat{
+  padding:17px 10px;
+  text-align:center;
+  border-radius:15px;
+  background:linear-gradient(145deg,#151a2a,#0d1019);
+  border:1px solid rgba(255,255,255,.07)
+}
+
+.stat .icon{
+  font-size:22px
+}
+
+.stat h3{
+  font-size:25px;
+  margin-top:5px
+}
+
+.stat p{
+  color:#9099b4;
+  font-size:12px;
+  margin-top:4px
+}
+
+input,
+textarea,
+select{
+  width:100%;
+  padding:13px;
+  margin-top:8px;
+  border-radius:11px;
+  border:1px solid #30374d;
+  background:#0b0e17;
+  color:#fff;
+  outline:none
+}
+
+input:focus,
+textarea:focus,
+select:focus{
+  border-color:#4f7cff
+}
+
+textarea{
+  min-height:90px;
+  resize:vertical
+}
+
+label{
+  display:block;
+  color:#aeb6ce;
+  font-size:13px;
+  margin-top:10px
+}
+
+button{
+  width:100%;
+  padding:13px;
+  margin-top:10px;
+  border:0;
+  border-radius:11px;
+  color:#fff;
+  background:linear-gradient(135deg,#2563eb,#6d4aff);
+  font-weight:700;
+  font-size:15px;
+  cursor:pointer;
+  transition:.2s
+}
+
+button:hover{
+  transform:translateY(-1px);
+  filter:brightness(1.08)
+}
+
+button:disabled{
+  opacity:.6;
+  cursor:not-allowed;
+  transform:none
+}
+
+button.stop{
+  background:linear-gradient(135deg,#dc2626,#ef4444)
+}
+
+button.green{
+  background:linear-gradient(135deg,#059669,#16a34a)
+}
+
+button.gray{
+  background:#252b3c
+}
+
+button.danger{
+  background:#b91c1c
+}
+
+.timer{
+  text-align:center;
+  font-size:43px;
+  font-weight:800;
+  letter-spacing:2px;
+  padding:20px 0;
+  color:#dbe7ff
+}
+
+.two{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px
+}
+
+.progress-wrap{
+  margin-top:14px
+}
+
+.progress-bar{
+  height:16px;
+  background:#292f40;
+  border-radius:20px;
+  overflow:hidden
+}
+
+.progress-fill{
+  height:100%;
+  width:0;
+  background:linear-gradient(
+    90deg,
+    #22c55e,
+    #06b6d4,
+    #6366f1
+  );
+  transition:.3s
+}
+
+.message{
+  text-align:center;
+  margin-top:9px;
+  color:#9ca8c2;
+  font-size:13px
+}
+
+.tabs{
+  display:flex;
+  gap:8px;
+  margin-bottom:13px
+}
+
+.tabs button{
+  margin:0
+}
+
+.tabs button.active{
+  background:linear-gradient(
+    135deg,
+    #06b6d4,
+    #2563eb
+  )
+}
+
+.rank-card{
+  display:grid;
+  grid-template-columns:55px 1fr auto;
+  gap:12px;
+  align-items:center;
+  padding:13px;
+  margin-top:9px;
+  border-radius:15px;
+  background:#0c1019;
+  border:1px solid rgba(255,255,255,.07)
+}
+
+.rank-num{
+  font-size:22px;
+  font-weight:800;
+  text-align:center
+}
+
+.rank-info strong{
+  display:block
+}
+
+.rank-info small{
+  color:#8e98b1
+}
+
+.rank-right{
+  text-align:right
+}
+
+.rank-right strong{
+  font-size:18px
+}
+
+.rank-right small{
+  color:#9aa5bf
+}
+
+.podium{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:10px;
+  margin-bottom:14px
+}
+
+.podium-item{
+  text-align:center;
+  padding:15px;
+  border-radius:16px;
+  background:linear-gradient(
+    145deg,
+    #171d2e,
+    #0c1019
+  )
+}
+
+.podium-item .medal{
+  font-size:28px
+}
+
+.podium-item strong{
+  display:block;
+  margin-top:5px;
+  font-size:13px;
+  word-break:break-word
+}
+
+.podium-item small{
+  display:block;
+  color:#9ca8c2;
+  margin-top:4px
+}
+
+.activity{
+  padding:14px;
+  border-radius:15px;
+  background:#0c1019;
+  border:1px solid rgba(255,255,255,.07);
+  margin-top:10px
+}
+
+.activity-top{
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  flex-wrap:wrap
+}
+
+.badge{
+  display:inline-block;
+  padding:5px 8px;
+  border-radius:20px;
+  background:#202b47;
+  color:#bcd1ff;
+  font-size:11px
+}
+
+.activity p{
+  color:#c4ccdd;
+  margin-top:8px;
+  line-height:1.45;
+  font-size:13px
+}
+
+.activity small{
+  color:#7f8aa4
+}
+
+.idea-item{
+  padding:14px;
+  margin-top:10px;
+  border-radius:14px;
+  background:#0c1019;
+  border:1px solid rgba(255,255,255,.07)
+}
+
+.idea-email{
+  color:#72a6ff;
+  font-size:12px;
+  margin-bottom:6px
+}
+
+.idea-text{
+  line-height:1.5;
+  color:#e6e9f1;
+  white-space:pre-wrap
+}
+
+.logout{
+  background:linear-gradient(
+    135deg,
+    #b91c1c,
+    #ef4444
+  );
+  margin-top:4px
+}
+
+.hidden{
+  display:none!important
+}
+
+.loading{
+  text-align:center;
+  padding:18px;
+  color:#9da8c7
+}
+
+.empty{
+  text-align:center;
+  padding:18px;
+  color:#8f99b2
+}
+
+.error{
+  color:#f87171;
+  text-align:center;
+  padding:15px
+}
+
+@media(max-width:800px){
+  .grid{
+    grid-template-columns:1fr
+  }
+
+  .full{
+    grid-column:auto
+  }
+}
+
+@media(max-width:600px){
+  .stats{
+    grid-template-columns:repeat(2,1fr)
+  }
+
+  .two{
+    grid-template-columns:1fr
+  }
+
+  .podium{
+    grid-template-columns:1fr
+  }
+
+  .rank-card{
+    grid-template-columns:42px 1fr
+  }
+
+  .rank-right{
+    grid-column:2;
+    text-align:left
+  }
+
+  .timer{
+    font-size:34px
+  }
+}
+
+/* ================= MEETING CENTER ================= */
+.meeting-tools{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.meeting-list{display:grid;gap:12px;margin-top:16px}
+.meeting-item{background:rgba(18,25,47,.8);border:1px solid rgba(125,145,200,.22);border-radius:14px;padding:14px}
+.meeting-item h3{margin-bottom:7px;overflow-wrap:anywhere}
+.meeting-item p{color:#aab4cd;font-size:13px;margin:5px 0}
+.meeting-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.meeting-actions button{width:auto;flex:1;min-width:100px}
+.meeting-badge{display:inline-block;border-radius:999px;padding:4px 9px;font-size:11px;background:rgba(59,130,246,.18);color:#93c5fd;margin-bottom:8px}
+.meeting-alert{display:none;margin:12px 0;padding:14px;border:1px solid #fbbf24;background:rgba(120,75,10,.25);border-radius:12px;color:#fde68a}
+.meeting-alert.show{display:block;animation:meetingPulse 1s ease-in-out infinite alternate}
+@keyframes meetingPulse{from{box-shadow:0 0 0 rgba(251,191,36,0)}to{box-shadow:0 0 20px rgba(251,191,36,.25)}}
+@media(max-width:600px){.meeting-tools{grid-template-columns:1fr}.meeting-actions button{flex:1 1 100%}}
+
+</style>
+</head>
+
+<body>
+
+<header>
+  <h1>⚡ FORCE CENTER</h1>
+  <p>TEAM WORK • PROGRESS • PERFORMANCE</p>
+</header>
+
+<div class="container">
+
+  <!-- WELCOME -->
+  <section class="welcome">
+    <h2>Welcome, Team Member 👋</h2>
+    <p id="userEmail">Checking account...</p>
+  </section>
+
+  <div class="grid">
+
+    <!-- TARGET -->
+    <section class="card">
+
+      <h2>🎯 My Target</h2>
+
+      <label>Target</label>
+      <input
+        id="target"
+        placeholder="Example: Edit 5 videos today"
+      >
+
+      <label>Target quantity</label>
+      <input
+        id="targetNumber"
+        type="number"
+        min="1"
+        placeholder="Example: 5"
+      >
+
+      <label>Completed quantity</label>
+      <input
+        id="completedNumber"
+        type="number"
+        min="0"
+        placeholder="Example: 3"
+      >
+
+      <div class="two">
+
+        <button id="saveTarget">
+          💾 Save Target
+        </button>
+
+        <button
+          id="updateProgress"
+          class="green"
+        >
+          ✅ Update Progress
+        </button>
+
+      </div>
+
+      <p
+        id="targetMessage"
+        class="message"
+      ></p>
+
+      <div class="progress-wrap">
+
+        <div
+          style="
+          display:flex;
+          justify-content:space-between;
+          margin-bottom:7px"
+        >
+          <span>Progress</span>
+          <strong id="progressText">0%</strong>
+        </div>
+
+        <div class="progress-bar">
+          <div
+            id="progressFill"
+            class="progress-fill"
+          ></div>
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- MY STATS -->
+    <section class="card">
+
+      <h2>📊 My Stats</h2>
+
+      <div class="stats">
+
+        <div class="stat">
+          <div class="icon">✅</div>
+          <h3 id="myCompleted">0</h3>
+          <p>Completed</p>
+        </div>
+
+        <div class="stat">
+          <div class="icon">📈</div>
+          <h3 id="myProgress">0%</h3>
+          <p>Progress</p>
+        </div>
+
+        <div class="stat">
+          <div class="icon">⏱️</div>
+          <h3 id="myHours">0.0</h3>
+          <p>Today's Hours</p>
+        </div>
+
+        <div class="stat">
+          <div class="icon">⭐</div>
+          <h3 id="myRating">0</h3>
+          <p>Rating</p>
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- WORK TIMER -->
+    <section class="card full">
+
+      <h2>🚀 Start Your Work</h2>
+
+      <label>Work type</label>
+
+      <select id="workType">
+
+        <option value="Video Editing">
+          🎬 Video Editing
+        </option>
+
+        <option value="Graphic Design">
+          🎨 Graphic Design
+        </option>
+
+        <option value="Trading">
+          📈 Trading
+        </option>
+
+        <option value="Study">
+          📚 Study
+        </option>
+
+        <option value="Other Work">
+          💻 Other Work
+        </option>
+
+      </select>
+
+
+      <!-- STUDY -->
+      <div
+        id="studyFields"
+        class="hidden"
+      >
+
+        <label>Study subject</label>
+
+        <select id="studySubject">
+
+          <option value="Mathematics">
+            ➗ Mathematics
+          </option>
+
+          <option value="Science">
+            🔬 Science
+          </option>
+
+          <option value="Social Science">
+            🌍 Social Science
+          </option>
+
+          <option value="English">
+            📖 English
+          </option>
+
+          <option value="Hindi">
+            📝 Hindi
+          </option>
+
+          <option value="Computer">
+            💻 Computer
+          </option>
+
+          <option value="Other">
+            📚 Other
+          </option>
+
+        </select>
+
+        <input
+          id="customSubject"
+          class="hidden"
+          placeholder="Enter your subject"
+        >
+
+      </div>
+
+
+      <label>What are you doing?</label>
+
+      <input
+        id="workTitle"
+        placeholder="Example: Editing client video / Chapter 2 / Trading analysis"
+      >
+
+
+      <label>Work details</label>
+
+      <textarea
+        id="workNote"
+        placeholder="Write what you are working on..."
+      ></textarea>
+
+
+      <div class="two">
+
+        <div>
+
+          <label>Completed quantity</label>
+
+          <input
+            id="sessionCompleted"
+            type="number"
+            min="0"
+            value="0"
+          >
+
+        </div>
+
+        <div>
+
+          <label>Progress %</label>
+
+          <input
+            id="sessionProgress"
+            type="number"
+            min="0"
+            max="100"
+            value="0"
+          >
+
+        </div>
+
+      </div>
+
+
+      <div
+        id="timer"
+        class="timer"
+      >
+        00:00:00
+      </div>
+
+
+      <div class="two">
+
+        <button id="startTimer">
+          ▶ Start Work
+        </button>
+
+        <button
+          id="stopTimer"
+          class="stop"
+        >
+          ⏹ Stop & Save
+        </button>
+
+      </div>
+
+      <p
+        id="timerMessage"
+        class="message"
+      >
+        Your work session will be saved in Firebase.
+      </p>
+
+    </section>
+
+
+    <!-- LEADERBOARD -->
+    <section class="card">
+
+      <h2>🏆 Team Leaderboard</h2>
+
+      <div class="tabs">
+
+        <button
+          id="dailyBtn"
+          class="active"
+        >
+          📅 Daily
+        </button>
+
+        <button
+          id="weeklyBtn"
+          class="gray"
+        >
+          📆 Weekly
+        </button>
+
+      </div>
+
+      <div
+        id="podium"
+        class="podium"
+      ></div>
+
+      <div
+        id="leaderboard"
+        class="loading"
+      >
+        Loading leaderboard...
+      </div>
+
+    </section>
+
+
+    <!-- TEAM ACTIVITY -->
+    <section class="card">
+
+      <h2>👥 Team Work Activity</h2>
+
+      <p
+        style="
+        color:#8f99b2;
+        font-size:13px;
+        margin-bottom:10px"
+      >
+        Everyone can see what team members are working on.
+      </p>
+
+      <div
+        id="teamActivity"
+        class="loading"
+      >
+        Loading activity...
+      </div>
+
+    </section>
+
+
+
+    <!-- MEETING CENTER -->
+    <section class="card full" id="meetingCenter">
+      <h2>🎥 Meeting Center</h2>
+      <p style="color:#8f99b2;font-size:13px;margin:8px 0 14px">
+        Create a video meeting, schedule its start time, and let the team join.
+      </p>
+      <div class="meeting-tools">
+        <div>
+          <label>Meeting title</label>
+          <input id="meetingTitle" maxlength="100" placeholder="Example: Weekly team meeting">
+        </div>
+        <div>
+          <label>Meeting date & time</label>
+          <input id="meetingDateTime" type="datetime-local">
+        </div>
+      </div>
+      <div class="two" style="margin-top:12px">
+        <button id="createMeeting">➕ Schedule Meeting</button>
+        <div>
+          <label for="meetingSound">Choose alert sound</label>
+          <select id="meetingSound" style="width:100%;padding:12px;border-radius:10px;background:#10182b;color:#fff;border:1px solid #33415f">
+            <option value="classic">Classic Horn</option>
+            <option value="bell">Soft Bell</option>
+            <option value="double">Double Beep</option>
+            <option value="alarm">Urgent Alarm</option>
+            <option value="chime">Gentle Chime</option>
+          </select>
+          <button id="enableHorn" class="gray" style="width:100%;margin-top:8px">🔔 Test Selected Sound</button>
+        </div>
+      </div>
+      <p id="meetingMessage" class="message">Urgent alarm repeats until you press Stop Alarm. Keep this dashboard open for reminders.</p>
+      <div id="meetingAlert" class="meeting-alert" role="status" aria-live="polite"></div>
+      <div id="meetingList" class="meeting-list">
+        <div class="loading">Loading meetings...</div>
+      </div>
+    </section>
+
+    <!-- IDEAS -->
+    <section class="card full">
+
+      <h2>💡 Team Ideas</h2>
+
+      <textarea
+        id="idea"
+        placeholder="Share an idea with the whole team..."
+      ></textarea>
+
+      <button id="submitIdea">
+        🚀 Share Idea
+      </button>
+
+      <p
+        id="ideaMessage"
+        class="message"
+      ></p>
+
+      <div
+        id="ideasList"
+        class="loading"
+      >
+        Loading ideas...
+      </div>
+
+    </section>
+
+
+    <!-- ADMIN RATING -->
+    <section
+      id="adminRatingCard"
+      class="card full hidden"
+    >
+
+      <h2>⭐ Owner Rating</h2>
+
+      <p
+        style="
+        color:#8f99b2;
+        font-size:13px"
+      >
+        Owner/Admin can update member ratings.
+      </p>
+
+      <div id="ratingList"></div>
+
+    </section>
+
+  </div>
+
+
+  <!-- LOGOUT -->
+  <button
+    id="logout"
+    class="logout"
+  >
+    🚪 Logout
+  </button>
+
+</div>
+
+
+<script type="module">
+
+import {
+  initializeApp
+} from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
+
+import {
+  getAuth,
+  onAuthStateChanged,
+  signOut
+} from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
+
+import {
+  getFirestore,
+  doc,
+  setDoc,
+  getDoc,
+  getDocs,
+  addDoc,
+  updateDoc,
+  deleteDoc,
+  collection,
+  query,
+  where,
+  serverTimestamp
+} from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
+
+
+/* ================= FIREBASE ================= */
+
+const firebaseConfig = {
+
+  apiKey:
+    "AIzaSyCOTV3I0bJj1H3Jc4CU-bb-WY3Q3947bSY",
+
+  authDomain:
+    "team-app-c7b71.firebaseapp.com",
+
+  projectId:
+    "team-app-c7b71",
+
+  storageBucket:
+    "team-app-c7b71.firebasestorage.app",
+
+  messagingSenderId:
+    "697657748554",
+
+  appId:
+    "1:697657748554:web:f20282dd2f537cc5b70ab3"
+
+};
+
+
+const app = initializeApp(firebaseConfig);
+
+const auth = getAuth(app);
+
+const db = getFirestore(app);
+
+const ADMIN_EMAIL =
+  "bagrirachit007@gmail.com";
+
+
+/* ================= VARIABLES ================= */
+
+let currentUser = null;
+
+let timerInterval = null;
+
+let timerStartMs = null;
+
+let timerRunning = false;
+
+let leaderboardMode = "daily";
+
+
+/* ================= SHORTCUT ================= */
+
+const $ = id =>
+  document.getElementById(id);
+
+
+/* ================= HELPERS ================= */
+
+function todayKey(){
+
+  const d = new Date();
+
+  return `${d.getFullYear()}-${String(
+    d.getMonth()+1
+  ).padStart(2,"0")}-${String(
+    d.getDate()
+  ).padStart(2,"0")}`;
+
+}
+
+
+function progressValue(
+  target,
+  completed
+){
+
+  target = Number(target) || 0;
+
+  completed = Number(completed) || 0;
+
+  if(target <= 0) return 0;
+
+  return Math.min(
+    100,
+    Math.max(
+      0,
+      Math.round(
+        completed / target * 100
+      )
+    )
+  );
+
+}
+
+
+function formatTime(sec){
+
+  sec = Math.max(
+    0,
+    Math.floor(Number(sec) || 0)
+  );
+
+  const h =
+    Math.floor(sec / 3600);
+
+  const m =
+    Math.floor((sec % 3600) / 60);
+
+  const s =
+    sec % 60;
+
+  return `${String(h).padStart(2,"0")}:${String(m).padStart(2,"0")}:${String(s).padStart(2,"0")}`;
+
+}
+
+
+function escapeHtml(value){
+
+  return String(value ?? "")
+    .replace(
+      /[&<>"']/g,
+      m => ({
+        "&":"&amp;",
+        "<":"&lt;",
+        ">":"&gt;",
+        '"':"&quot;",
+        "'":"&#039;"
+      }[m])
+    );
+
+}
+
+
+function getDateFromData(data){
+
+  if(
+    data &&
+    data.createdAt &&
+    typeof data.createdAt.toDate === "function"
+  ){
+
+    return data.createdAt.toDate();
+
+  }
+
+  if(Number(data?.endedAtMs)){
+
+    return new Date(
+      Number(data.endedAtMs)
+    );
+
+  }
+
+  if(Number(data?.startedAtMs)){
+
+    return new Date(
+      Number(data.startedAtMs)
+    );
+
+  }
+
+  return null;
+
+}
+
+
+/* ================= PROGRESS UI ================= */
+
+function updateProgressUI(
+  target,
+  completed
+){
+
+  const p =
+    progressValue(
+      target,
+      completed
+    );
+
+  $("progressText").textContent =
+    p + "%";
+
+  $("progressFill").style.width =
+    p + "%";
+
+  $("myProgress").textContent =
+    p + "%";
+
+  $("myCompleted").textContent =
+    Number(completed) || 0;
+
+}
+
+
+/* ================= STUDY ================= */
+
+$("workType").addEventListener(
+  "change",
+  () => {
+
+    const isStudy =
+      $("workType").value === "Study";
+
+    $("studyFields")
+      .classList
+      .toggle(
+        "hidden",
+        !isStudy
+      );
+
+    if(!isStudy){
+
+      $("customSubject")
+        .classList
+        .add("hidden");
+
+    }
+
+  }
+);
+
+
+$("studySubject").addEventListener(
+  "change",
+  () => {
+
+    $("customSubject")
+      .classList
+      .toggle(
+        "hidden",
+        $("studySubject").value !== "Other"
+      );
+
+  }
+);
+
+
+/* ================= MEMBER ================= */
+
+async function loadMember(){
+
+  if(!currentUser) return;
+
+  const snap =
+    await getDoc(
+      doc(
+        db,
+        "members",
+        currentUser.uid
+      )
+    );
+
+  if(!snap.exists()){
+
+    updateProgressUI(0,0);
+
+    return;
+
+  }
+
+  const d = snap.data();
+
+  $("target").value =
+    d.target || "";
+
+  $("targetNumber").value =
+    d.targetNumber || "";
+
+  $("completedNumber").value =
+    d.completedNumber || 0;
+
+  updateProgressUI(
+    d.targetNumber,
+    d.completedNumber
+  );
+
+  const rating =
+    Number(
+      d.performance ??
+      d.rating ??
+      0
+    );
+
+  $("myRating").textContent =
+    rating > 0
+      ? rating.toFixed(1) + " ⭐"
+      : "0";
+
+}
+
+
+/* ================= SAVE TARGET ================= */
+
+$("saveTarget").addEventListener(
+  "click",
+  async () => {
+
+    if(!currentUser) return;
+
+    const target =
+      $("target").value.trim();
+
+    const targetNumber =
+      Number(
+        $("targetNumber").value
+      );
+
+    if(
+      !target ||
+      targetNumber < 1
+    ){
+
+      $("targetMessage").textContent =
+        "Enter a target and quantity.";
+
+      $("targetMessage").style.color =
+        "#f87171";
+
+      return;
+
+    }
+
+    try{
+
+      await setDoc(
+        doc(
+          db,
+          "members",
+          currentUser.uid
+        ),
+        {
+
+          email:
+            currentUser.email,
+
+          target:
+            target,
+
+          targetNumber:
+            targetNumber,
+
+          completedNumber:
+            0,
+
+          updatedAt:
+            serverTimestamp()
+
+        },
+        {
+          merge:true
+        }
+      );
+
+      $("completedNumber").value = 0;
+
+      updateProgressUI(
+        targetNumber,
+        0
+      );
+
+      $("targetMessage").textContent =
+        "✅ Target saved successfully!";
+
+      $("targetMessage").style.color =
+        "#4ade80";
+
+      await loadMyStats();
+
+      await loadLeaderboard();
+
+    }catch(error){
+
+      console.error(error);
+
+      $("targetMessage").textContent =
+        "Could not save target.";
+
+      $("targetMessage").style.color =
+        "#f87171";
+
+    }
+
+  }
+);
+
+
+/* ================= UPDATE PROGRESS ================= */
+
+$("updateProgress").addEventListener(
+  "click",
+  async () => {
+
+    if(!currentUser) return;
+
+    const target =
+      Number(
+        $("targetNumber").value
+      );
+
+    const completed =
+      Number(
+        $("completedNumber").value
+      );
+
+    if(
+      target < 1 ||
+      completed < 0
+    ){
+
+      $("targetMessage").textContent =
+        "Enter valid target and completed values.";
+
+      $("targetMessage").style.color =
+        "#f87171";
+
+      return;
+
+    }
+
+    try{
+
+      await setDoc(
+        doc(
+          db,
+          "members",
+          currentUser.uid
+        ),
+        {
+
+          completedNumber:
+            completed,
+
+          progressUpdatedAt:
+            serverTimestamp()
+
+        },
+        {
+          merge:true
+        }
+      );
+
+      updateProgressUI(
+        target,
+        completed
+      );
+
+      $("targetMessage").textContent =
+        "✅ Progress updated!";
+
+      $("targetMessage").style.color =
+        "#4ade80";
+
+      await loadMyStats();
+
+      await loadLeaderboard();
+
+    }catch(error){
+
+      console.error(error);
+
+      $("targetMessage").textContent =
+        "Could not update progress.";
+
+      $("targetMessage").style.color =
+        "#f87171";
+
+    }
+
+  }
+);
+
+
+/* ================= TIMER ================= */
+
+function timerTick(){
+
+  if(!timerStartMs) return;
+
+  const seconds =
+    (Date.now() - timerStartMs) / 1000;
+
+  $("timer").textContent =
+    formatTime(seconds);
+
+}
+
+
+/*
+  IMPORTANT:
+  Old active timer is NOT restored.
+  This prevents an old/unknown timer
+  from starting automatically.
+*/
+
+async function clearOldTimer(){
+
+  if(!currentUser) return;
+
+  try{
+
+    await deleteDoc(
+      doc(
+        db,
+        "activeTimers",
+        currentUser.uid
+      )
+    );
+
+  }catch(error){
+
+    console.log(
+      "No old timer to clear."
+    );
+
+  }
+
+}
+
+
+/* ================= START TIMER ================= */
+
+$("startTimer").addEventListener(
+  "click",
+  async () => {
+
+    if(!currentUser) return;
+
+    if(timerRunning){
+
+      $("timerMessage").textContent =
+        "Timer is already running.";
+
+      return;
+
+    }
+
+    const workType =
+      $("workType").value;
+
+    let subject = "";
+
+    if(workType === "Study"){
+
+      subject =
+        $("studySubject").value === "Other"
+          ? $("customSubject").value.trim()
+          : $("studySubject").value;
+
+      if(!subject){
+
+        $("timerMessage").textContent =
+          "Please select or enter a study subject.";
+
+        $("timerMessage").style.color =
+          "#f87171";
+
+        return;
+
+      }
+
+    }
+
+    const workTitle =
+      $("workTitle").value.trim();
+
+    if(!workTitle){
+
+      $("timerMessage").textContent =
+        "Please enter what you are doing.";
+
+      $("timerMessage").style.color =
+        "#f87171";
+
+      return;
+
+    }
+
+    timerStartMs =
+      Date.now();
+
+    timerRunning =
+      true;
+
+    $("startTimer").disabled =
+      true;
+
+    $("stopTimer").disabled =
+      false;
+
+    timerTick();
+
+    clearInterval(
+      timerInterval
+    );
+
+    timerInterval =
+      setInterval(
+        timerTick,
+        1000
+      );
+
+    try{
+
+      await setDoc(
+        doc(
+          db,
+          "activeTimers",
+          currentUser.uid
+        ),
+        {
+
+          userId:
+            currentUser.uid,
+
+          email:
+            currentUser.email,
+
+          workType:
+            workType,
+
+          subject:
+            subject,
+
+          workTitle:
+            workTitle,
+
+          workNote:
+            $("workNote").value.trim(),
+
+          startedAtMs:
+            timerStartMs,
+
+          updatedAt:
+            serverTimestamp()
+
+        }
+      );
+
+      $("timerMessage").textContent =
+        "🟢 Work started.";
+
+      $("timerMessage").style.color =
+        "#4ade80";
+
+    }catch(error){
+
+      console.error(error);
+
+      clearInterval(
+        timerInterval
+      );
+
+      timerInterval =
+        null;
+
+      timerRunning =
+        false;
+
+      timerStartMs =
+        null;
+
+      $("startTimer").disabled =
+        false;
+
+      $("stopTimer").disabled =
+        false;
+
+      $("timer").textContent =
+        "00:00:00";
+
+      $("timerMessage").textContent =
+        "Could not start work. Check Firestore permission.";
+
+      $("timerMessage").style.color =
+        "#f87171";
+
+    }
+
+  }
+);
+
+
+/* ================= STOP TIMER ================= */
+
+$("stopTimer").addEventListener(
+  "click",
+  async () => {
+
+    if(
+      !currentUser ||
+      !timerRunning ||
+      !timerStartMs
+    ){
+
+      $("timerMessage").textContent =
+        "Timer is not running.";
+
+      return;
+
+    }
+
+    const endedAtMs =
+      Date.now();
+
+    const durationSeconds =
+      Math.floor(
+        (
+          endedAtMs -
+          timerStartMs
+        ) / 1000
+      );
+
+    const workType =
+      $("workType").value;
+
+    let subject = "";
+
+    if(workType === "Study"){
+
+      subject =
+        $("studySubject").value === "Other"
+          ? $("customSubject").value.trim()
+          : $("studySubject").value;
+
+    }
+
+    try{
+
+      await addDoc(
+        collection(
+          db,
+          "workSessions"
+        ),
+        {
+
+          userId:
+            currentUser.uid,
+
+          email:
+            currentUser.email,
+
+          workType:
+            workType,
+
+          subject:
+            subject,
+
+          workTitle:
+            $("workTitle").value.trim(),
+
+          workNote:
+            $("workNote").value.trim(),
+
+          completedCount:
+            Number(
+              $("sessionCompleted").value
+            ) || 0,
+
+          sessionProgress:
+            Number(
+              $("sessionProgress").value
+            ) || 0,
+
+          durationSeconds:
+            durationSeconds,
+
+          startedAtMs:
+            timerStartMs,
+
+          endedAtMs:
+            endedAtMs,
+
+          dateKey:
+            todayKey(),
+
+          createdAt:
+            serverTimestamp()
+
+        }
+      );
+
+
+      try{
+
+        await deleteDoc(
+          doc(
+            db,
+            "activeTimers",
+            currentUser.uid
+          )
+        );
+
+      }catch(error){
+
+        console.log(
+          "active timer already removed"
+        );
+
+      }
+
+
+      clearInterval(
+        timerInterval
+      );
+
+      timerInterval =
+        null;
+
+      timerStartMs =
+        null;
+
+      timerRunning =
+        false;
+
+      $("startTimer").disabled =
+        false;
+
+      $("stopTimer").disabled =
+        false;
+
+      $("timer").textContent =
+        "00:00:00";
+
+      $("timerMessage").textContent =
+        `✅ Saved ${formatTime(durationSeconds)} of ${workType}.`;
+
+      $("timerMessage").style.color =
+        "#4ade80";
+
+
+      $("workTitle").value = "";
+
+      $("workNote").value = "";
+
+      $("sessionCompleted").value =
+        0;
+
+      $("sessionProgress").value =
+        0;
+
+
+      await loadMyStats();
+
+      await loadLeaderboard();
+
+      await loadTeamActivity();
+
+    }catch(error){
+
+      console.error(error);
+
+      $("timerMessage").textContent =
+        "Could not save work session. Check Firestore permission.";
+
+      $("timerMessage").style.color =
+        "#f87171";
+
+    }
+
+  }
+);
+
+
+/* ================= MY STATS ================= */
+
+async function loadMyStats(){
+
+  if(!currentUser) return;
+
+  try{
+
+    const memberSnap =
+      await getDoc(
+        doc(
+          db,
+          "members",
+          currentUser.uid
+        )
+      );
+
+    const d =
+      memberSnap.exists()
+        ? memberSnap.data()
+        : {};
+
+    const target =
+      Number(d.targetNumber) || 0;
+
+    const completed =
+      Number(d.completedNumber) || 0;
+
+    updateProgressUI(
+      target,
+      completed
+    );
+
+
+    const rating =
+      Number(
+        d.performance ??
+        d.rating ??
+        0
+      );
+
+    $("myRating").textContent =
+      rating > 0
+        ? rating.toFixed(1) + " ⭐"
+        : "0";
+
+
+    const sessionsSnap =
+      await getDocs(
+        query(
+          collection(
+            db,
+            "workSessions"
+          ),
+          where(
+            "userId",
+            "==",
+            currentUser.uid
+          )
+        )
+      );
+
+
+    let seconds = 0;
+
+    sessionsSnap.forEach(
+      item => {
+
+        const data =
+          item.data();
+
+        if(
+          data.dateKey ===
+          todayKey()
+        ){
+
+          seconds +=
+            Number(
+              data.durationSeconds
+            ) || 0;
+
+        }
+
+      }
+    );
+
+
+    $("myHours").textContent =
+      (seconds / 3600).toFixed(1);
+
+  }catch(error){
+
+    console.error(
+      "Stats error:",
+      error
+    );
+
+    $("myHours").textContent =
+      "0.0";
+
+  }
+
+}
+
+
+/* ================= LEADERBOARD PERIOD ================= */
+
+function getPeriodStart(
+  mode
+){
+
+  const d =
+    new Date();
+
+  d.setHours(
+    0,
+    0,
+    0,
+    0
+  );
+
+
+  if(mode === "daily"){
+
+    return d.getTime();
+
+  }
+
+
+  const day =
+    d.getDay();
+
+  const diff =
+    day === 0
+      ? 6
+      : day - 1;
+
+
+  d.setDate(
+    d.getDate() - diff
+  );
+
+  return d.getTime();
+
+}
+
+
+/* ================= LEADERBOARD ================= */
+
+async function loadLeaderboard(){
+
+  const box =
+    $("leaderboard");
+
+  const podium =
+    $("podium");
+
+  box.innerHTML =
+    "Loading leaderboard...";
+
+  podium.innerHTML =
+    "";
+
+
+  try{
+
+    const membersSnap =
+      await getDocs(
+        collection(
+          db,
+          "members"
+        )
+      );
+
+
+    const sessionsSnap =
+      await getDocs(
+        collection(
+          db,
+          "workSessions"
+        )
+      );
+
+
+    const start =
+      getPeriodStart(
+        leaderboardMode
+      );
+
+
+    const hoursMap = {};
+
+
+    sessionsSnap.forEach(
+      item => {
+
+        const data =
+          item.data();
+
+        const uid =
+          data.userId;
+
+        if(!uid) return;
+
+
+        /*
+          Daily:
+          dateKey must equal today.
+
+          Weekly:
+          timestamp must be from
+          Monday of current week.
+        */
+
+        let include = false;
+
+
+        if(
+          leaderboardMode ===
+          "daily"
+        ){
+
+          include =
+            data.dateKey ===
+            todayKey();
+
+        }else{
+
+          const when =
+            Number(
+              data.startedAtMs
+            ) ||
+            Number(
+              data.endedAtMs
+            ) ||
+            0;
+
+          include =
+            when >= start;
+
+        }
+
+
+        if(include){
+
+          hoursMap[uid] =
+            (
+              hoursMap[uid] ||
+              0
+            ) +
+            (
+              Number(
+                data.durationSeconds
+              ) || 0
+            );
+
+        }
+
+      }
+    );
+
+
+    const members = [];
+
+
+    membersSnap.forEach(
+      item => {
+
+        const data =
+          item.data();
+
+        const uid =
+          item.id;
+
+        const rating =
+          Number(
+            data.performance ??
+            data.rating ??
+            0
+          ) || 0;
+
+
+        members.push({
+
+          uid:
+
+            uid,
+
+          email:
+
+            data.email ||
+            "Member",
+
+          hours:
+
+            hoursMap[uid] ||
+            0,
+
+          progress:
+
+            progressValue(
+              data.targetNumber,
+              data.completedNumber
+            ),
+
+          completed:
+
+            Number(
+              data.completedNumber
+            ) || 0,
+
+          rating:
+
+            rating
+
+        });
+
+      }
+    );
+
+
+    /*
+      Sorting:
+      1. Work hours
+      2. Progress
+      3. Rating
+    */
+
+    members.sort(
+      (a,b) =>
+        b.hours - a.hours ||
+        b.progress - a.progress ||
+        b.rating - a.rating
+    );
+
+
+    /* PODIUM */
+
+    podium.innerHTML =
+      members
+        .slice(0,3)
+        .map(
+          (member,index) => {
+
+            const medals =
+              [
+                "🥇",
+                "🥈",
+                "🥉"
+              ];
+
+            return `
+
+              <div class="podium-item">
+
+                <div class="medal">
+                  ${medals[index]}
+                </div>
+
+                <strong>
+                  ${escapeHtml(
+                    member.email
+                  )}
+                </strong>
+
+                <small>
+                  ${(
+                    member.hours / 3600
+                  ).toFixed(1)}h
+                </small>
+
+              </div>
+
+            `;
+
+          }
+        )
+        .join("");
+
+
+    /* LIST */
+
+    if(!members.length){
+
+      box.innerHTML =
+        `<div class="empty">
+          No team data yet.
+        </div>`;
+
+      return;
+
+    }
+
+
+    box.innerHTML =
+      members
+        .map(
+          (member,index) => `
+
+            <div class="rank-card">
+
+              <div class="rank-num">
+                #${index + 1}
+              </div>
+
+              <div class="rank-info">
+
+                <strong>
+                  ${escapeHtml(
+                    member.email
+                  )}
+                </strong>
+
+                <small>
+                  Progress
+                  ${member.progress}%
+                  • Completed
+                  ${member.completed}
+                  • ⭐
+                  ${member.rating.toFixed(1)}
+                </small>
+
+              </div>
+
+              <div class="rank-right">
+
+                <strong>
+                  ${(
+                    member.hours / 3600
+                  ).toFixed(1)}h
+                </strong>
+
+                <small>
+                  ${
+                    leaderboardMode ===
+                    "daily"
+                      ? "today"
+                      : "this week"
+                  }
+                </small>
+
+              </div>
+
+            </div>
+
+          `
+        )
+        .join("");
+
+
+  }catch(error){
+
+    console.error(
+      "Leaderboard error:",
+      error
+    );
+
+    box.innerHTML =
+      `<div class="error">
+        Could not load leaderboard.
+        Please check Firestore permissions.
+      </div>`;
+
+  }
+
+}
+
+
+/* ================= LEADERBOARD BUTTONS ================= */
+
+$("dailyBtn").onclick =
+  async () => {
+
+    leaderboardMode =
+      "daily";
+
+    $("dailyBtn")
+      .classList
+      .add("active");
+
+    $("weeklyBtn")
+      .classList
+      .remove("active");
+
+    await loadLeaderboard();
+
+  };
+
+
+$("weeklyBtn").onclick =
+  async () => {
+
+    leaderboardMode =
+      "weekly";
+
+    $("weeklyBtn")
+      .classList
+      .add("active");
+
+    $("dailyBtn")
+      .classList
+      .remove("active");
+
+    await loadLeaderboard();
+
+  };
+
+
+/* ================= TEAM ACTIVITY ================= */
+
+async function loadTeamActivity(){
+
+  const box =
+    $("teamActivity");
+
+  box.innerHTML =
+    "Loading activity...";
+
+
+  try{
+
+    /*
+      No orderBy here.
+      This prevents Firestore index/order
+      problems from breaking the dashboard.
+    */
+
+    const snap =
+      await getDocs(
+        collection(
+          db,
+          "workSessions"
+        )
+      );
+
+
+    const items = [];
+
+
+    snap.forEach(
+      item => {
+
+        items.push({
+
+          id:
+            item.id,
+
+          data:
+            item.data()
+
+        });
+
+      }
+    );
+
+
+    items.sort(
+      (a,b) => {
+
+        const dateA =
+          Number(
+            a.data.endedAtMs
+          ) ||
+          Number(
+            a.data.startedAtMs
+          ) ||
+          0;
+
+        const dateB =
+          Number(
+            b.data.endedAtMs
+          ) ||
+          Number(
+            b.data.startedAtMs
+          ) ||
+          0;
+
+        return dateB - dateA;
+
+      }
+    );
+
+
+    const latest =
+      items.slice(
+        0,
+        40
+      );
+
+
+    if(!latest.length){
+
+      box.innerHTML =
+        `<div class="empty">
+          No work activity yet.
+        </div>`;
+
+      return;
+
+    }
+
+
+    box.innerHTML =
+      latest
+        .map(
+          item => {
+
+            const d =
+              item.data;
+
+            const date =
+              getDateFromData(d);
+
+
+            let workLabel = "";
+
+
+            if(
+              d.workType ===
+              "Study"
+            ){
+
+              workLabel =
+                `📚 Study • ${
+                  escapeHtml(
+                    d.subject ||
+                    "Subject"
+                  )
+                }`;
+
+            }else{
+
+              workLabel =
+                escapeHtml(
+                  d.workType ||
+                  "Work"
+                );
+
+            }
+
+
+            return `
+
+              <div class="activity">
+
+                <div class="activity-top">
+
+                  <strong>
+                    ${escapeHtml(
+                      d.email ||
+                      "Member"
+                    )}
+                  </strong>
+
+                  <span class="badge">
+                    ${workLabel}
+                  </span>
+
+                </div>
+
+
+                <p>
+
+                  <b>
+                    ${escapeHtml(
+                      d.workTitle ||
+                      "Work session"
+                    )}
+                  </b>
+
+                  ${
+                    d.workNote
+                      ? `<br>${escapeHtml(
+                          d.workNote
+                        )}`
+                      : ""
+                  }
+
+                </p>
+
+
+                <p>
+
+                  ⏱️
+                  ${formatTime(
+                    d.durationSeconds
+                  )}
+
+                  &nbsp; • &nbsp;
+
+                  📈
+                  ${
+                    Number(
+                      d.sessionProgress
+                    ) || 0
+                  }%
+
+                  &nbsp; • &nbsp;
+
+                  ✅
+                  ${
+                    Number(
+                      d.completedCount
+                    ) || 0
+                  }
+                  completed
+
+                </p>
+
+
+                <small>
+
+                  ${
+                    date
+                      ? date.toLocaleString()
+                      : "Recent"
+                  }
+
+                </small>
+
+              </div>
+
+            `;
+
+          }
+        )
+        .join("");
+
+
+  }catch(error){
+
+    console.error(
+      "Activity error:",
+      error
+    );
+
+    box.innerHTML =
+      `<div class="error">
+        Could not load team activity.
+        Check Firestore permissions.
+      </div>`;
+
+  }
+
+}
+
+
+/* ================= IDEAS ================= */
+
+$("submitIdea").onclick =
+  async () => {
+
+    if(!currentUser) return;
+
+    const text =
+      $("idea").value.trim();
+
+
+    if(!text){
+
+      $("ideaMessage").textContent =
+        "Write an idea first.";
+
+      $("ideaMessage").style.color =
+        "#f87171";
+
+      return;
+
+    }
+
+
+    try{
+
+      await addDoc(
+        collection(
+          db,
+          "ideas"
+        ),
+        {
+
+          userId:
+            currentUser.uid,
+
+          email:
+            currentUser.email,
+
+          idea:
+            text,
+
+          createdAt:
+            serverTimestamp(),
+
+          updatedAt:
+            serverTimestamp()
+
+        }
+      );
+
+
+      $("idea").value =
+        "";
+
+      $("ideaMessage").textContent =
+        "✅ Idea shared!";
+
+      $("ideaMessage").style.color =
+        "#4ade80";
+
+
+      await loadIdeas();
+
+
+    }catch(error){
+
+      console.error(
+        "Idea error:",
+        error
+      );
+
+      $("ideaMessage").textContent =
+        "Could not share idea.";
+
+      $("ideaMessage").style.color =
+        "#f87171";
+
+    }
+
+  };
+
+
+/* ================= LOAD IDEAS ================= */
+
+async function loadIdeas(){
+
+  const box =
+    $("ideasList");
+
+  box.innerHTML =
+    "Loading ideas...";
+
+
+  try{
+
+    const snap =
+      await getDocs(
+        collection(
+          db,
+          "ideas"
+        )
+      );
+
+
+    const ideas = [];
+
+
+    snap.forEach(
+      item => {
+
+        ideas.push({
+
+          id:
+            item.id,
+
+          data:
+            item.data()
+
+        });
+
+      }
+    );
+
+
+    ideas.sort(
+      (a,b) => {
+
+        const aTime =
+          a.data.createdAt &&
+          typeof a.data.createdAt.toMillis ===
+          "function"
+            ? a.data.createdAt.toMillis()
+            : 0;
+
+        const bTime =
+          b.data.createdAt &&
+          typeof b.data.createdAt.toMillis ===
+          "function"
+            ? b.data.createdAt.toMillis()
+            : 0;
+
+        return bTime - aTime;
+
+      }
+    );
+
+
+    if(!ideas.length){
+
+      box.innerHTML =
+        `<div class="empty">
+          No ideas yet.
+        </div>`;
+
+      return;
+
+    }
+
+
+    box.innerHTML =
+      "";
+
+
+    ideas.forEach(
+      item => {
+
+        const id =
+          item.id;
+
+        const d =
+          item.data;
+
+
+        const div =
+          document.createElement(
+            "div"
+          );
+
+        div.className =
+          "idea-item";
+
+
+        div.innerHTML = `
+
+          <div class="idea-email">
+            ${escapeHtml(
+              d.email ||
+              "Team Member"
+            )}
+          </div>
+
+          <div class="idea-text">
+            ${escapeHtml(
+              d.idea ||
+              ""
+            )}
+          </div>
+
+        `;
+
+
+        const canEdit =
+          currentUser.uid ===
+          d.userId;
+
+
+        const canDelete =
+          canEdit ||
+          currentUser.email ===
+          ADMIN_EMAIL;
+
+
+        if(
+          canEdit ||
+          canDelete
+        ){
+
+          const actions =
+            document.createElement(
+              "div"
+            );
+
+          actions.className =
+            "two";
+
+
+          if(canEdit){
+
+            const edit =
+              document.createElement(
+                "button"
+              );
+
+            edit.textContent =
+              "✏️ Edit";
+
+
+            edit.onclick =
+              async () => {
+
+                const newText =
+                  prompt(
+                    "Edit idea:",
+                    d.idea || ""
+                  );
+
+
+                if(
+                  newText ===
+                  null
+                ) return;
+
+
+                if(
+                  !newText.trim()
+                ){
+
+                  alert(
+                    "Idea cannot be empty."
+                  );
+
+                  return;
+
+                }
+
+
+                try{
+
+                  await updateDoc(
+                    doc(
+                      db,
+                      "ideas",
+                      id
+                    ),
+                    {
+
+                      idea:
+                        newText.trim(),
+
+                      updatedAt:
+                        serverTimestamp()
+
+                    }
+                  );
+
+
+                  await loadIdeas();
+
+                }catch(error){
+
+                  console.error(
+                    error
+                  );
+
+                  alert(
+                    "Could not edit idea."
+                  );
+
+                }
+
+              };
+
+
+            actions.appendChild(
+              edit
+            );
+
+          }
+
+
+          if(canDelete){
+
+            const del =
+              document.createElement(
+                "button"
+              );
+
+            del.textContent =
+              "🗑️ Delete";
+
+            del.className =
+              "danger";
+
+
+            del.onclick =
+              async () => {
+
+                if(
+                  !confirm(
+                    "Delete this idea?"
+                  )
+                ) return;
+
+
+                try{
+
+                  await deleteDoc(
+                    doc(
+                      db,
+                      "ideas",
+                      id
+                    )
+                  );
+
+
+                  await loadIdeas();
+
+                }catch(error){
+
+                  console.error(
+                    error
+                  );
+
+                  alert(
+                    "Could not delete idea."
+                  );
+
+                }
+
+              };
+
+
+            actions.appendChild(
+              del
+            );
+
+          }
+
+
+          div.appendChild(
+            actions
+          );
+
+        }
+
+
+        box.appendChild(
+          div
+        );
+
+      }
+    );
+
+
+  }catch(error){
+
+    console.error(
+      "Ideas error:",
+      error
+    );
+
+    box.innerHTML =
+      `<div class="error">
+        Could not load ideas.
+        Check Firestore permissions.
+      </div>`;
+
+  }
+
+}
+
+
+/* ================= OWNER RATING ================= */
+
+async function loadRatingPanel(){
+
+  if(
+    !currentUser ||
+    currentUser.email !==
+    ADMIN_EMAIL
+  ){
+
+    return;
+
+  }
+
+
+  $("adminRatingCard")
+    .classList
+    .remove("hidden");
+
+
+  const box =
+    $("ratingList");
+
+
+  box.innerHTML =
+    "Loading members...";
+
+
+  try{
+
+    const snap =
+      await getDocs(
+        collection(
+          db,
+          "members"
+        )
+      );
+
+
+    box.innerHTML =
+      "";
+
+
+    snap.forEach(
+      item => {
+
+        if(
+          item.id ===
+          currentUser.uid
+        ){
+
+          return;
+
+        }
+
+
+        const d =
+          item.data();
+
+
+        const row =
+          document.createElement(
+            "div"
+          );
+
+        row.className =
+          "idea-item";
+
+
+        const name =
+          document.createElement(
+            "strong"
+          );
+
+        name.textContent =
+          d.email ||
+          "Member";
+
+
+        row.appendChild(
+          name
+        );
+
+
+        const select =
+          document.createElement(
+            "select"
+          );
+
+
+        [1,2,3,4,5].forEach(
+          value => {
+
+            const option =
+              document.createElement(
+                "option"
+              );
+
+            option.value =
+              value;
+
+            option.textContent =
+              value +
+              " ⭐";
+
+            select.appendChild(
+              option
+            );
+
+          }
+        );
+
+
+        const current =
+          Number(
+            d.performance ??
+            d.rating ??
+            0
+          );
+
+
+        if(
+          current >= 1 &&
+          current <= 5
+        ){
+
+          select.value =
+            Math.round(
+              current
+            );
+
+        }
+
+
+        row.appendChild(
+          select
+        );
+
+
+        const button =
+          document.createElement(
+            "button"
+          );
+
+        button.textContent =
+          "⭐ Save Rating";
+
+
+        button.onclick =
+          async () => {
+
+            try{
+
+              button.disabled =
+                true;
+
+              button.textContent =
+                "Saving...";
+
+
+              const rating =
+                Number(
+                  select.value
+                );
+
+
+              await updateDoc(
+                doc(
+                  db,
+                  "members",
+                  item.id
+                ),
+                {
+
+                  performance:
+                    rating,
+
+                  rating:
+                    rating,
+
+                  ratingUpdatedAt:
+                    serverTimestamp(),
+
+                  ratedBy:
+                    currentUser.uid
+
+                }
+              );
+
+
+              button.disabled =
+                false;
+
+              button.textContent =
+                "⭐ Save Rating";
+
+
+              await loadRatingPanel();
+
+              await loadLeaderboard();
+
+              await loadMyStats();
+
+
+            }catch(error){
+
+              console.error(
+                error
+              );
+
+              button.disabled =
+                false;
+
+              button.textContent =
+                "⭐ Save Rating";
+
+              alert(
+                "Could not save rating."
+              );
+
+            }
+
+          };
+
+
+        row.appendChild(
+          button
+        );
+
+
+        box.appendChild(
+          row
+        );
+
+      }
+    );
+
+
+    if(!box.children.length){
+
+      box.innerHTML =
+        `<div class="empty">
+          No other members found.
+        </div>`;
+
+    }
+
+
+  }catch(error){
+
+    console.error(
+      "Rating error:",
+      error
+    );
+
+    box.innerHTML =
+      `<div class="error">
+        Could not load rating panel.
+      </div>`;
+
+  }
+
+}
+
+
+
+/* ================= MEETING CENTER ================= */
+
+let meetingAlarmInterval = null;
+let meetingAlarmContext = null;
+let hornEnabled = false;
+let alarmRepeatInterval = null;
+let alarmIsRinging = false;
+const alertedMeetingIds = new Set();
+
+const meetingDateInput = $("meetingDateTime");
+if(meetingDateInput){
+  const suggestedMeetingTime = new Date(Date.now() + 60*60*1000);
+  suggestedMeetingTime.setSeconds(0,0);
+  meetingDateInput.value = localDateTimeInputValue(suggestedMeetingTime);
+}
+
+function setMeetingMessage(message, isError=false){
+  const el = $("meetingMessage");
+  if(!el) return;
+  el.textContent = message;
+  el.style.color = isError ? "#f87171" : "#aab4cd";
+}
+
+function localDateTimeInputValue(date){
+  const offset = date.getTimezoneOffset() * 60000;
+  return new Date(date.getTime() - offset).toISOString().slice(0,16);
+}
+
+function playMeetingHorn(){
+  if(!hornEnabled || !meetingAlarmContext) return;
+  try{
+    const ctx = meetingAlarmContext;
+    if(ctx.state === "suspended") ctx.resume();
+    const now = ctx.currentTime;
+    const sound = $("meetingSound")?.value || "classic";
+    const patterns = {
+      classic: [{f:880,t:0,d:0.22,w:"square"},{f:880,t:0.32,d:0.22,w:"square"},{f:880,t:0.64,d:0.22,w:"square"}],
+      bell: [{f:660,t:0,d:0.42,w:"sine"},{f:880,t:0.12,d:0.48,w:"sine"}],
+      double: [{f:740,t:0,d:0.13,w:"sine"},{f:740,t:0.22,d:0.13,w:"sine"}],
+      alarm: [{f:950,t:0,d:0.18,w:"square"},{f:620,t:0.2,d:0.18,w:"square"},{f:950,t:0.4,d:0.18,w:"square"},{f:620,t:0.6,d:0.18,w:"square"}],
+      chime: [{f:523,t:0,d:0.42,w:"sine"},{f:659,t:0.16,d:0.42,w:"sine"},{f:784,t:0.32,d:0.52,w:"sine"}]
+    };
+    (patterns[sound] || patterns.classic).forEach(({f,t,d,w}) => {
+      const oscillator = ctx.createOscillator();
+      const gain = ctx.createGain();
+      oscillator.type = w;
+      oscillator.frequency.setValueAtTime(f, now + t);
+      gain.gain.setValueAtTime(0.0001, now + t);
+      gain.gain.exponentialRampToValueAtTime(sound === "alarm" ? 0.13 : 0.08, now + t + 0.025);
+      gain.gain.setValueAtTime(sound === "alarm" ? 0.13 : 0.08, now + t + d * 0.65);
+      gain.gain.exponentialRampToValueAtTime(0.0001, now + t + d);
+      oscillator.connect(gain);
+      gain.connect(ctx.destination);
+      oscillator.start(now + t);
+      oscillator.stop(now + t + d + 0.02);
+    });
+  }catch(error){
+    console.warn("Meeting alert sound could not play:", error);
+  }
+}
+
+function stopMeetingAlarm(){
+  alarmIsRinging = false;
+  if(alarmRepeatInterval){
+    clearInterval(alarmRepeatInterval);
+    alarmRepeatInterval = null;
+  }
+  setMeetingMessage("Alarm stopped. You can still use the Join Meeting button.");
+}
+
+function startMeetingAlarm(){
+  if(alarmIsRinging) return;
+  alarmIsRinging = true;
+  // Repeat the selected alarm until the user explicitly stops it.
+  playMeetingHorn();
+  alarmRepeatInterval = setInterval(() => {
+    if(!alarmIsRinging || !hornEnabled) return;
+    playMeetingHorn();
+  }, 1000);
+}
+
+$("enableHorn").addEventListener("click", async () => {
+  try{
+    const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+    if(!AudioContextClass){
+      setMeetingMessage("This browser does not support horn sound. Please use a modern browser.", true);
+      return;
+    }
+    if(!meetingAlarmContext) meetingAlarmContext = new AudioContextClass();
+    if(meetingAlarmContext.state === "suspended") await meetingAlarmContext.resume();
+    hornEnabled = true;
+    playMeetingHorn();
+    setMeetingMessage("Selected sound tested. Keep this dashboard open for meeting alerts.");
+  }catch(error){
+    console.error(error);
+    setMeetingMessage("Could not enable sound. Check your browser sound settings and try again.", true);
+  }
+});
+
+$("createMeeting").addEventListener("click", async () => {
+  if(!currentUser){
+    setMeetingMessage("Please sign in first.", true);
+    return;
+  }
+  const title = $("meetingTitle").value.trim();
+  const dateValue = $("meetingDateTime").value;
+  const startAtMs = new Date(dateValue).getTime();
+
+  if(!title){
+    setMeetingMessage("Enter a meeting title first.", true);
+    $("meetingTitle").focus();
+    return;
+  }
+  if(!dateValue || !Number.isFinite(startAtMs)){
+    setMeetingMessage("Choose the meeting date and time.", true);
+    return;
+  }
+  if(startAtMs < Date.now() + 30000){
+    setMeetingMessage("Choose a start time at least 30 seconds in the future.", true);
+    return;
+  }
+
+  const button = $("createMeeting");
+  button.disabled = true;
+  button.textContent = "Saving...";
+  try{
+    const roomName = "force-center-" + crypto.randomUUID().replaceAll("-", "").slice(0,18);
+    await addDoc(collection(db, "meetings"), {
+      title,
+      startAtMs,
+      roomName,
+      meetingUrl: "https://meet.jit.si/" + roomName,
+      createdBy: currentUser.uid,
+      createdByEmail: currentUser.email || "",
+      createdAt: serverTimestamp()
+    });
+    $("meetingTitle").value = "";
+    $("meetingDateTime").value = "";
+    setMeetingMessage("Meeting scheduled successfully.");
+    await loadMeetings();
+  }catch(error){
+    console.error("Create meeting error:", error);
+    setMeetingMessage("Could not save meeting. Check Firestore rules for the meetings collection.", true);
+  }finally{
+    button.disabled = false;
+    button.textContent = "➕ Schedule Meeting";
+  }
+});
+
+async function loadMeetings(){
+  const box = $("meetingList");
+  if(!box) return;
+  try{
+    const snap = await getDocs(collection(db, "meetings"));
+    const meetings = [];
+    snap.forEach(item => meetings.push({id:item.id, ...item.data()}));
+    meetings.sort((a,b) => (Number(a.startAtMs)||0) - (Number(b.startAtMs)||0));
+
+    if(!meetings.length){
+      box.innerHTML = '<div class="empty">No meetings scheduled yet. Create the first meeting above.</div>';
+      return;
+    }
+
+    box.innerHTML = "";
+    const now = Date.now();
+    meetings.forEach(meeting => {
+      const start = Number(meeting.startAtMs) || 0;
+      const isPast = start < now;
+      const ownMeeting = currentUser && (meeting.createdBy === currentUser.uid || (currentUser.email || "").toLowerCase() === ADMIN_EMAIL.toLowerCase());
+      const item = document.createElement("div");
+      item.className = "meeting-item";
+      const status = isPast ? "Scheduled time passed" : (start - now <= 5*60*1000 ? "Starting soon" : "Upcoming");
+      const dateText = start ? new Date(start).toLocaleString([], {dateStyle:"medium", timeStyle:"short"}) : "Time not set";
+      item.innerHTML = `
+        <span class="meeting-badge">${escapeHtml(status)}</span>
+        <h3>${escapeHtml(meeting.title || "Team meeting")}</h3>
+        <p>🕒 ${escapeHtml(dateText)}</p>
+        <p>Created by: ${escapeHtml(meeting.createdByEmail || "Team member")}</p>
+        <div class="meeting-actions">
+          <button type="button" class="join-meeting">🎥 Join Video Call</button>
+          ${ownMeeting ? '<button type="button" class="delete-meeting stop">🗑 Delete</button>' : ''}
+        </div>`;
+      item.querySelector(".join-meeting").addEventListener("click", () => {
+        if(!meeting.meetingUrl || !/^https:\/\/meet\.jit\.si\//i.test(meeting.meetingUrl)){
+          setMeetingMessage("This meeting link is not valid.", true);
+          return;
+        }
+        window.open(meeting.meetingUrl, "_blank", "noopener,noreferrer");
+      });
+      const deleteButton = item.querySelector(".delete-meeting");
+      if(deleteButton){
+        deleteButton.addEventListener("click", async () => {
+          if(!confirm("Delete this meeting for everyone?")) return;
+          deleteButton.disabled = true;
+          try{
+            await deleteDoc(doc(db, "meetings", meeting.id));
+            alertedMeetingIds.delete(meeting.id);
+            setMeetingMessage("Meeting deleted.");
+            await loadMeetings();
+          }catch(error){
+            console.error("Delete meeting error:", error);
+            setMeetingMessage("Could not delete meeting. Check Firestore rules.", true);
+            deleteButton.disabled = false;
+          }
+        });
+      }
+      box.appendChild(item);
+    });
+  }catch(error){
+    console.error("Load meetings error:", error);
+    box.innerHTML = '<div class="error">Could not load meetings. Firestore rules may need access to the meetings collection.</div>';
+  }
+}
+
+function checkMeetingTimes(){
+  if(!currentUser) return;
+  const now = Date.now();
+  getDocs(collection(db, "meetings")).then(snap => {
+    snap.forEach(item => {
+      const meeting = item.data();
+      const start = Number(meeting.startAtMs) || 0;
+      if(start > 0 && now >= start && now < start + 2*60*60*1000 && !alertedMeetingIds.has(item.id)){
+        alertedMeetingIds.add(item.id);
+        const alertBox = $("meetingAlert");
+        alertBox.innerHTML = `<strong>🚨 URGENT ALARM — Meeting time!</strong><br>${escapeHtml(meeting.title || "Team meeting")} is starting now.<br><button type="button" id="alertJoinButton" style="margin-top:10px">🎥 Join Meeting</button> <button type="button" id="stopAlarmButton" class="stop" style="margin-top:10px">🔕 Stop Alarm</button>`;
+        alertBox.classList.add("show");
+        const stopAlarmButton = $("stopAlarmButton");
+        if(stopAlarmButton) stopAlarmButton.addEventListener("click", stopMeetingAlarm);
+        const join = $("alertJoinButton");
+        if(join) join.addEventListener("click", () => {
+          if(meeting.meetingUrl && /^https:\/\/meet\.jit\.si\//i.test(meeting.meetingUrl)){
+            window.open(meeting.meetingUrl, "_blank", "noopener,noreferrer");
+          }
+        });
+        startMeetingAlarm();
+        if("Notification" in window && Notification.permission === "granted"){
+          try{ new Notification("FORCE CENTER meeting", {body:(meeting.title || "Team meeting") + " is starting now."}); }catch(e){}
+        }
+        setMeetingMessage("A meeting is starting. Use the alert to join.");
+      }
+    });
+  }).catch(error => console.warn("Meeting reminder check failed:", error));
+}
+
+
+/* ================= LOGOUT ================= */
+
+$("logout").onclick =
+  async () => {
+
+    try{
+
+      await signOut(
+        auth
+      );
+
+      location.href =
+        "index.html";
+
+    }catch(error){
+
+      console.error(
+        error
+      );
+
+    }
+
+  };
+
+
+/* ================= AUTH ================= */
+
+onAuthStateChanged(
+  auth,
+  async user => {
+
+    if(!user){
+
+      location.href =
+        "index.html";
+
+      return;
+
+    }
+
+
+    currentUser =
+      user;
+
+
+    $("userEmail").textContent =
+      user.email;
+
+
+    /*
+      Old/unknown timer is cleared.
+      It will NOT automatically start
+      when dashboard opens.
+    */
+
+    await clearOldTimer();
+
+
+    try{
+
+      await loadMember();
+
+      await loadMyStats();
+
+      await loadLeaderboard();
+
+      await loadTeamActivity();
+
+      await loadIdeas();
+
+      await loadRatingPanel();
+
+      await loadMeetings();
+      if(!meetingAlarmInterval){
+        meetingAlarmInterval = setInterval(checkMeetingTimes, 15000);
+      }
+
+    }catch(error){
+
+      console.error(
+        "Dashboard loading error:",
+        error
+      );
+
+      /*
+        Dashboard itself stays open.
+        One failed section won't make
+        the whole page get stuck.
+      */
+
+    }
+
+  }
+);
+
+</script>
+
+</body>
+</html>
