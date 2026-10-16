@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="manifest" href="./manifest.json">
+    <title>FORCE CENTER| Login</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #050505,
+                    #101010,
+                    #1b1b1b
+                );
+
+            color: white;
+        }
+
+        .login-container {
+            width: 100%;
+            max-width: 420px;
+            padding: 25px;
+        }
+
+        .login-box {
+            background: rgba(25, 25, 25, 0.96);
+            border: 1px solid #333;
+            border-radius: 20px;
+            padding: 35px 28px;
+
+            box-shadow:
+                0 20px 60px rgba(0, 0, 0, 0.6);
+        }
+
+        .logo {
+            text-align: center;
+            font-size: 32px;
+            font-weight: 800;
+            letter-spacing: 3px;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #aaa;
+            font-size: 14px;
+            margin-bottom: 30px;
+        }
+
+        .input-group {
+            margin-bottom: 18px;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 7px;
+            font-size: 14px;
+            color: #ddd;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 14px;
+
+            border-radius: 10px;
+            border: 1px solid #444;
+
+            background: #111;
+            color: white;
+
+            outline: none;
+            font-size: 15px;
+        }
+
+        .input-group input:focus {
+            border-color: #888;
+        }
+
+        .login-button {
+            width: 100%;
+            padding: 14px;
+
+            margin-top: 8px;
+
+            border: none;
+            border-radius: 10px;
+
+            background: white;
+            color: black;
+
+            font-size: 16px;
+            font-weight: bold;
+
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .login-button:hover {
+            transform: translateY(-1px);
+            opacity: 0.9;
+        }
+
+        .login-button:active {
+            transform: scale(0.98);
+        }
+
+        .login-button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        #message {
+            min-height: 22px;
+            text-align: center;
+            margin-top: 18px;
+            font-size: 14px;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 25px;
+            color: #666;
+            font-size: 12px;
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+    <div class="login-container">
+
+        <div class="login-box">
+
+            <div class="logo">
+                FORCE CENTER
+            </div>
+
+            <div class="subtitle">
+                Team Management System
+            </div>
+
+
+            <!-- COMPANY CODE -->
+
+            <div class="input-group">
+
+                <label for="companyCode">
+                    Company Code
+                </label>
+
+                <input
+                    type="text"
+                    id="companyCode"
+                    placeholder="Enter company code"
+                    autocomplete="off"
+                >
+
+            </div>
+
+
+            <!-- EMAIL -->
+
+            <div class="input-group">
+
+                <label for="userId">
+                    Gmail / User ID
+                </label>
+
+                <input
+                    type="email"
+                    id="userId"
+                    placeholder="Enter your Gmail"
+                    autocomplete="username"
+                >
+
+            </div>
+
+
+            <!-- PASSWORD -->
+
+            <div class="input-group">
+
+                <label for="password">
+                    Password
+                </label>
+
+                <input
+                    type="password"
+                    id="password"
+                    placeholder="Enter your password"
+                    autocomplete="current-password"
+                >
+
+            </div>
+
+
+            <!-- LOGIN BUTTON -->
+
+            <button
+                id="loginButton"
+                class="login-button"
+                type="button"
+            >
+                LOGIN
+            </button>
+
+
+            <!-- MESSAGE -->
+
+            <div id="message"></div>
+
+
+            <div class="footer">
+                FORCE CENTER
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ==========================================
+         FIREBASE LOGIN
+         ========================================== -->
+
+    <script type="module">
+
+        import { initializeApp }
+        from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
+
+
+        import {
+            getAuth,
+            signInWithEmailAndPassword
+        }
+        from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
+
+
+        // ==========================================
+        // FIREBASE CONFIG
+        // ==========================================
+
+        const firebaseConfig = {
+
+            apiKey: "AIzaSyCOTV3I0bJj1H3Jc4CU-bb-WY3Q3947bSY",
+
+            authDomain: "team-app-c7b71.firebaseapp.com",
+
+            projectId: "team-app-c7b71",
+
+            storageBucket: "team-app-c7b71.firebasestorage.app",
+
+            messagingSenderId: "697657748554",
+
+            appId: "1:697657748554:web:f20282dd2f537cc5b70ab3"
+
+        };
+
+
+        // ==========================================
+        // START FIREBASE
+        // ==========================================
+
+        const app = initializeApp(firebaseConfig);
+
+        const auth = getAuth(app);
+
+
+        // ==========================================
+        // GET ELEMENTS
+        // ==========================================
+
+        const loginButton =
+            document.getElementById("loginButton");
+
+        const message =
+            document.getElementById("message");
+
+        const companyCode =
+            document.getElementById("companyCode");
+
+        const userId =
+            document.getElementById("userId");
+
+        const password =
+            document.getElementById("password");
+
+
+        // ==========================================
+        // SYSTEM READY
+        // ==========================================
+
+        message.textContent = "System ready.";
+
+        message.style.color = "lightgreen";
+
+
+        // ==========================================
+        // LOGIN
+        // ==========================================
+
+        loginButton.addEventListener("click", async function () {
+
+            const code =
+                companyCode.value.trim();
+
+            const email =
+                userId.value.trim();
+
+            const pass =
+                password.value;
+
+
+            // CHECK EMPTY FIELDS
+
+            if (!code || !email || !pass) {
+
+                message.textContent =
+                    "Please fill all fields.";
+
+                message.style.color =
+                    "#ff5555";
+
+                return;
+            }
+
+
+            // CHECK COMPANY CODE
+
+            if (code !== "BFX2026") {
+
+                message.textContent =
+                    "Wrong Company Code.";
+
+                message.style.color =
+                    "#ff5555";
+
+                return;
+            }
+
+
+            // LOGIN START
+
+            loginButton.disabled = true;
+
+            loginButton.textContent =
+                "LOGGING IN...";
+
+            message.textContent =
+                "Logging in...";
+
+            message.style.color =
+                "white";
+
+
+            try {
+
+                // FIREBASE LOGIN
+
+                await signInWithEmailAndPassword(
+                    auth,
+                    email,
+                    pass
+                );
+
+
+                // SUCCESS
+
+                message.textContent =
+                    "Login successful!";
+
+                message.style.color =
+                    "lightgreen";
+
+
+                loginButton.textContent =
+                    "SUCCESS";
+
+
+                // OPEN DASHBOARD
+
+                setTimeout(function () {
+
+                    window.location.href = "dashboard.html";
+
+                }, 800);
+
+
+            }
+
+            catch (error) {
+
+                console.error(
+                    "Firebase Login Error:",
+                    error
+                );
+
+
+                loginButton.disabled =
+                    false;
+
+                loginButton.textContent =
+                    "LOGIN";
+
+                message.style.color =
+                    "#ff5555";
+
+
+                // ERROR MESSAGES
+
+                if (
+                    error.code ===
+                    "auth/invalid-credential"
+                ) {
+
+                    message.textContent =
+                        "Wrong Gmail or Password.";
+
+                }
+
+                else if (
+                    error.code ===
+                    "auth/user-not-found"
+                ) {
+
+                    message.textContent =
+                        "This Gmail is not registered.";
+
+                }
+
+                else if (
+                    error.code ===
+                    "auth/wrong-password"
+                ) {
+
+                    message.textContent =
+                        "Wrong Password.";
+
+                }
+
+                else if (
+                    error.code ===
+                    "auth/invalid-email"
+                ) {
+
+                    message.textContent =
+                        "Invalid Gmail.";
+
+                }
+
+                else if (
+                    error.code ===
+                    "auth/operation-not-allowed"
+                ) {
+
+                    message.textContent =
+                        "Email/Password Login is disabled in Firebase.";
+
+                }
+
+                else if (
+                    error.code ===
+                    "auth/network-request-failed"
+                ) {
+
+                    message.textContent =
+                        "Network error. Check your internet.";
+
+                }
+
+                else {
+
+                    message.textContent =
+                        "Login Error: " +
+                        error.code;
+
+                }
+
+            }
+
+        });
+
+
+        // ==========================================
+        // ENTER KEY LOGIN
+        // ==========================================
+
+        password.addEventListener(
+            "keydown",
+            function (event) {
+
+                if (event.key === "Enter") {
+
+                    loginButton.click();
+
+                }
+
+            }
+        );
+
+    </script>
+
+
+</body>
+
+</html>

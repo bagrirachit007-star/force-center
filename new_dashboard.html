@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FORCE CENTER</title>
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0;font-family:Arial,sans-serif}
+body{
+  min-height:100vh;color:#fff;
+  background:radial-gradient(circle at top,#18254a 0,#0b0d16 38%,#07080d 100%);
+}
+header{
+  position:sticky;top:0;z-index:10;
+  padding:18px 20px;text-align:center;
+  background:rgba(10,12,22,.88);backdrop-filter:blur(14px);
+  border-bottom:1px solid rgba(255,255,255,.1);
+}
+header h1{font-size:30px;letter-spacing:2px}
+header p{color:#9da8c7;margin-top:5px;font-size:13px}
+.container{max-width:1150px;margin:auto;padding:24px 16px}
+.welcome{
+  padding:24px;border-radius:22px;margin-bottom:18px;
+  background:linear-gradient(135deg,rgba(38,76,160,.55),rgba(96,45,145,.32));
+  border:1px solid rgba(255,255,255,.12);
+  box-shadow:0 15px 45px rgba(0,0,0,.25)
+}
+.welcome h2{font-size:25px}.welcome p{color:#c5cbe0;margin-top:7px}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
+.card{
+  background:rgba(18,20,31,.88);border:1px solid rgba(255,255,255,.09);
+  border-radius:20px;padding:20px;margin-bottom:18px;
+  box-shadow:0 12px 35px rgba(0,0,0,.18)
+}
+.card h2{font-size:19px;margin-bottom:14px}
+.full{grid-column:1/-1}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.stat{
+  padding:17px 10px;text-align:center;border-radius:15px;
+  background:linear-gradient(145deg,#151a2a,#0d1019);
+  border:1px solid rgba(255,255,255,.07)
+}
+.stat .icon{font-size:22px}.stat h3{font-size:25px;margin-top:5px}.stat p{color:#9099b4;font-size:12px;margin-top:4px}
+input,textarea,select{
+  width:100%;padding:13px;margin-top:8px;border-radius:11px;
+  border:1px solid #30374d;background:#0b0e17;color:#fff;outline:none
+}
+textarea{min-height:90px;resize:vertical}
+label{display:block;color:#aeb6ce;font-size:13px;margin-top:10px}
+button{
+  width:100%;padding:13px;margin-top:10px;border:0;border-radius:11px;
+  color:#fff;background:linear-gradient(135deg,#2563eb,#6d4aff);
+  font-weight:700;font-size:15px;cursor:pointer;transition:.2s
+}
+button:hover{transform:translateY(-1px);filter:brightness(1.08)}
+button.stop{background:linear-gradient(135deg,#dc2626,#ef4444)}
+button.green{background:linear-gradient(135deg,#059669,#16a34a)}
+button.gray{background:#252b3c}
+button.danger{background:#b91c1c}
+.timer{
+  text-align:center;font-size:43px;font-weight:800;letter-spacing:2px;
+  padding:20px 0;color:#dbe7ff
+}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.progress-wrap{margin-top:14px}
+.progress-bar{height:16px;background:#292f40;border-radius:20px;overflow:hidden}
+.progress-fill{height:100%;width:0;background:linear-gradient(90deg,#22c55e,#06b6d4,#6366f1);transition:.3s}
+.message{text-align:center;margin-top:9px;color:#9ca8c2;font-size:13px}
+.tabs{display:flex;gap:8px;margin-bottom:13px}.tabs button{margin:0}.tabs button.active{background:linear-gradient(135deg,#06b6d4,#2563eb)}
+.rank-card{
+  display:grid;grid-template-columns:55px 1fr auto;gap:12px;align-items:center;
+  padding:13px;margin-top:9px;border-radius:15px;background:#0c1019;
+  border:1px solid rgba(255,255,255,.07)
+}
+.rank-num{font-size:22px;font-weight:800;text-align:center}
+.rank-info strong{display:block}.rank-info small{color:#8e98b1}
+.rank-right{text-align:right}.rank-right strong{font-size:18px}.rank-right small{color:#9aa5bf}
+.podium{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px}
+.podium-item{text-align:center;padding:15px;border-radius:16px;background:linear-gradient(145deg,#171d2e,#0c1019)}
+.podium-item .medal{font-size:28px}.podium-item strong{display:block;margin-top:5px;font-size:13px}
+.activity{
+  padding:14px;border-radius:15px;background:#0c1019;border:1px solid rgba(255,255,255,.07);
+  margin-top:10px
+}
+.activity-top{display:flex;justify-content:space-between;gap:10px}
+.badge{display:inline-block;padding:5px 8px;border-radius:20px;background:#202b47;color:#bcd1ff;font-size:11px}
+.activity p{color:#c4ccdd;margin-top:8px;line-height:1.45;font-size:13px}
+.activity small{color:#7f8aa4}
+.idea-item{padding:14px;margin-top:10px;border-radius:14px;background:#0c1019;border:1px solid rgba(255,255,255,.07)}
+.idea-email{color:#72a6ff;font-size:12px;margin-bottom:6px}.idea-text{line-height:1.5;color:#e6e9f1}
+.logout{background:linear-gradient(135deg,#b91c1c,#ef4444);margin-top:4px}
+.hidden{display:none!important}
+@media(max-width:800px){.grid{grid-template-columns:1fr}.full{grid-column:auto}}
+@media(max-width:600px){.stats{grid-template-columns:repeat(2,1fr)}.two{grid-template-columns:1fr}.podium{grid-template-columns:1fr}.rank-card{grid-template-columns:42px 1fr}.rank-right{grid-column:2;text-align:left}}
+</style>
+</head>
+
+<body>
+<header>
+  <h1>⚡ FORCE CENTER</h1>
+  <p>TEAM WORK • PROGRESS • PERFORMANCE</p>
+</header>
+
+<div class="container">
+  <section class="welcome">
+    <h2>Welcome, Team Member 👋</h2>
+    <p id="userEmail">Loading...</p>
+  </section>
+
+  <div class="grid">
+    <!-- TARGET -->
+    <section class="card">
+      <h2>🎯 My Target</h2>
+      <label>Target</label>
+      <input id="target" placeholder="Example: Edit 5 videos today">
+      <label>Target quantity</label>
+      <input id="targetNumber" type="number" min="1" placeholder="Example: 5">
+      <label>Completed quantity</label>
+      <input id="completedNumber" type="number" min="0" placeholder="Example: 3">
+      <div class="two">
+        <button id="saveTarget">💾 Save Target</button>
+        <button id="updateProgress" class="green">✅ Update Progress</button>
+      </div>
+      <p id="targetMessage" class="message"></p>
+      <div class="progress-wrap">
+        <div style="display:flex;justify-content:space-between;margin-bottom:7px">
+          <span>Progress</span><strong id="progressText">0%</strong>
+        </div>
+        <div class="progress-bar"><div id="progressFill" class="progress-fill"></div></div>
+      </div>
+    </section>
+
+    <!-- MY STATS -->
+    <section class="card">
+      <h2>📊 My Stats</h2>
+      <div class="stats">
+        <div class="stat"><div class="icon">✅</div><h3 id="myCompleted">0</h3><p>Completed</p></div>
+        <div class="stat"><div class="icon">📈</div><h3 id="myProgress">0%</h3><p>Progress</p></div>
+        <div class="stat"><div class="icon">⏱️</div><h3 id="myHours">0</h3><p>Today's Hours</p></div>
+        <div class="stat"><div class="icon">⭐</div><h3 id="myRating">0</h3><p>Rating</p></div>
+      </div>
+    </section>
+
+    <!-- WORK TIMER -->
+    <section class="card full">
+      <h2>🚀 Start Your Work</h2>
+
+      <label>Work type</label>
+      <select id="workType">
+        <option value="Video Editing">🎬 Video Editing</option>
+        <option value="Graphic Design">🎨 Graphic Design</option>
+        <option value="Trading">📈 Trading</option>
+        <option value="Study">📚 Study</option>
+        <option value="Other Work">💻 Other Work</option>
+      </select>
+
+      <div id="studyFields" class="hidden">
+        <label>Study subject</label>
+        <select id="studySubject">
+          <option value="Mathematics">➗ Mathematics</option>
+          <option value="Science">🔬 Science</option>
+          <option value="Social Science">🌍 Social Science</option>
+          <option value="English">📖 English</option>
+          <option value="Hindi">📝 Hindi</option>
+          <option value="Computer">💻 Computer</option>
+          <option value="Other">📚 Other</option>
+        </select>
+        <input id="customSubject" class="hidden" placeholder="Enter your subject">
+      </div>
+
+      <label>What are you doing?</label>
+      <input id="workTitle" placeholder="Example: Editing client video / Chapter 2 / Trading analysis">
+
+      <label>Work details</label>
+      <textarea id="workNote" placeholder="Write what you are working on..."></textarea>
+
+      <div class="two">
+        <div>
+          <label>Completed quantity</label>
+          <input id="sessionCompleted" type="number" min="0" value="0">
+        </div>
+        <div>
+          <label>Progress %</label>
+          <input id="sessionProgress" type="number" min="0" max="100" value="0">
+        </div>
+      </div>
+
+      <div id="timer" class="timer">00:00:00</div>
+      <div class="two">
+        <button id="startTimer">▶ Start Work</button>
+        <button id="stopTimer" class="stop">⏹ Stop & Save</button>
+      </div>
+      <p id="timerMessage" class="message">Your work session will be saved in Firebase.</p>
+    </section>
+
+    <!-- LEADERBOARD -->
+    <section class="card">
+      <h2>🏆 Team Leaderboard</h2>
+      <div class="tabs">
+        <button id="dailyBtn" class="active">📅 Daily</button>
+        <button id="weeklyBtn" class="gray">📆 Weekly</button>
+      </div>
+      <div id="podium" class="podium"></div>
+      <div id="leaderboard">Loading...</div>
+    </section>
+
+    <!-- TEAM ACTIVITY -->
+    <section class="card">
+      <h2>👥 Team Work Activity</h2>
+      <p style="color:#8f99b2;font-size:13px;margin-bottom:10px">
+        Everyone can see what work the team members have completed.
+      </p>
+      <div id="teamActivity">Loading activity...</div>
+    </section>
+
+    <!-- IDEAS -->
+    <section class="card full">
+      <h2>💡 Team Ideas</h2>
+      <textarea id="idea" placeholder="Share an idea with the whole team..."></textarea>
+      <button id="submitIdea">🚀 Share Idea</button>
+      <p id="ideaMessage" class="message"></p>
+      <div id="ideasList">Loading ideas...</div>
+    </section>
+
+    <!-- ADMIN RATING -->
+    <section id="adminRatingCard" class="card full hidden">
+      <h2>⭐ Owner Rating</h2>
+      <p style="color:#8f99b2;font-size:13px">Owner/Admin can update member ratings.</p>
+      <div id="ratingList"></div>
+    </section>
+  </div>
+
+  <button id="logout" class="logout">🚪 Logout</button>
+</div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
+import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
+import {
+  getFirestore, doc, setDoc, getDoc, getDocs, addDoc, updateDoc, deleteDoc,
+  collection, query, orderBy, where, serverTimestamp
+} from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey:"AIzaSyCOTV3I0bJj1H3Jc4CU-bb-WY3Q3947bSY",
+  authDomain:"team-app-c7b71.firebaseapp.com",
+  projectId:"team-app-c7b71",
+  storageBucket:"team-app-c7b71.firebasestorage.app",
+  messagingSenderId:"697657748554",
+  appId:"1:697657748554:web:f20282dd2f537cc5b70ab3"
+};
+
+const app=initializeApp(firebaseConfig);
+const auth=getAuth(app);
+const db=getFirestore(app);
+const ADMIN_EMAIL="bagrirachit007@gmail.com";
+
+let currentUser=null;
+let timerInterval=null;
+let timerStartMs=null;
+let timerRunning=false;
+let leaderboardMode="daily";
+
+const $=id=>document.getElementById(id);
+
+function todayKey(){
+  const d=new Date();
+  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
+}
+function progressValue(target,completed){
+  target=Number(target)||0; completed=Number(completed)||0;
+  if(target<=0)return 0;
+  return Math.min(100,Math.max(0,Math.round(completed/target*100)));
+}
+function formatTime(sec){
+  sec=Math.max(0,Math.floor(Number(sec)||0));
+  return `${String(Math.floor(sec/3600)).padStart(2,"0")}:${String(Math.floor(sec%3600/60)).padStart(2,"0")}:${String(sec%60).padStart(2,"0")}`;
+}
+function safeDate(data){
+  if(data?.createdAt?.toDate)return data.createdAt.toDate();
+  if(Number(data?.endedAtMs))return new Date(Number(data.endedAtMs));
+  if(Number(data?.startedAtMs))return new Date(Number(data.startedAtMs));
+  return null;
+}
+function escapeHtml(value){
+  return String(value??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]));
+}
+
+function updateProgressUI(target,completed){
+  const p=progressValue(target,completed);
+  $("progressText").textContent=p+"%";
+  $("progressFill").style.width=p+"%";
+  $("myProgress").textContent=p+"%";
+  $("myCompleted").textContent=Number(completed)||0;
+}
+
+$("workType").addEventListener("change",()=>{
+  const isStudy=$("workType").value==="Study";
+  $("studyFields").classList.toggle("hidden",!isStudy);
+  if(!isStudy)$("customSubject").classList.add("hidden");
+});
+$("studySubject").addEventListener("change",()=>{
+  $("customSubject").classList.toggle("hidden",$("studySubject").value!=="Other");
+});
+
+async function loadMember(){
+  if(!currentUser)return;
+  const snap=await getDoc(doc(db,"members",currentUser.uid));
+  if(!snap.exists()){updateProgressUI(0,0);return;}
+  const d=snap.data();
+  $("target").value=d.target||"";
+  $("targetNumber").value=d.targetNumber||"";
+  $("completedNumber").value=d.completedNumber||0;
+  updateProgressUI(d.targetNumber,d.completedNumber);
+  $("myRating").textContent=Number(d.performance??d.rating??0)?Number(d.performance??d.rating).toFixed(1)+" ⭐":"0";
+}
+
+$("saveTarget").addEventListener("click",async()=>{
+  if(!currentUser)return;
+  const target=$("target").value.trim();
+  const targetNumber=Number($("targetNumber").value);
+  if(!target||targetNumber<1){$("targetMessage").textContent="Enter a target and quantity.";return;}
+  try{
+    await setDoc(doc(db,"members",currentUser.uid),{
+      email:currentUser.email,target,targetNumber,completedNumber:0,updatedAt:serverTimestamp()
+    },{merge:true});
+    $("completedNumber").value=0; updateProgressUI(targetNumber,0);
+    $("targetMessage").textContent="Target saved successfully!";
+    $("targetMessage").style.color="#4ade80";
+    await loadMyStats(); await loadLeaderboard();
+  }catch(e){console.error(e);$("targetMessage").textContent="Could not save target.";$("targetMessage").style.color="#f87171";}
+});
+
+$("updateProgress").addEventListener("click",async()=>{
+  if(!currentUser)return;
+  const target=Number($("targetNumber").value);
+  const completed=Number($("completedNumber").value);
+  if(target<1||completed<0){$("targetMessage").textContent="Enter valid target and completed values.";return;}
+  try{
+    await setDoc(doc(db,"members",currentUser.uid),{
+      completedNumber:completed,progressUpdatedAt:serverTimestamp()
+    },{merge:true});
+    updateProgressUI(target,completed);
+    $("targetMessage").textContent="Progress updated!";
+    $("targetMessage").style.color="#4ade80";
+    await loadMyStats(); await loadLeaderboard();
+  }catch(e){console.error(e);$("targetMessage").textContent="Could not update progress.";}
+});
+
+function timerTick(){
+  if(!timerStartMs)return;
+  $("timer").textContent=formatTime((Date.now()-timerStartMs)/1000);
+}
+async function restoreTimer(){
+  const snap=await getDoc(doc(db,"activeTimers",currentUser.uid));
+  if(!snap.exists())return;
+  const d=snap.data();
+  timerStartMs=Number(d.startedAtMs)||null;
+  if(!timerStartMs)return;
+  $("workType").value=d.workType||"Other Work";
+  $("workType").dispatchEvent(new Event("change"));
+  if(d.studySubject)$("studySubject").value=d.studySubject;
+  if(d.customSubject)$("customSubject").value=d.customSubject;
+  $("workTitle").value=d.workTitle||"";
+  $("workNote").value=d.workNote||"";
+  timerRunning=true; timerTick(); clearInterval(timerInterval); timerInterval=setInterval(timerTick,1000);
+  $("timerMessage").textContent="⏱️ Your previous timer was restored.";
+}
+$("startTimer").addEventListener("click",async()=>{
+  if(!currentUser||timerRunning)return;
+  const workType=$("workType").value;
+  const subject=workType==="Study"?($("studySubject").value==="Other"?$("customSubject").value.trim():$("studySubject").value):"";
+  if(workType==="Study"&&!subject){$("timerMessage").textContent="Please select or enter a study subject.";return;}
+  if(!$("workTitle").value.trim()){$("timerMessage").textContent="Please enter what you are doing.";return;}
+  timerStartMs=Date.now(); timerRunning=true; timerTick();
+  clearInterval(timerInterval); timerInterval=setInterval(timerTick,1000);
+  try{
+    await setDoc(doc(db,"activeTimers",currentUser.uid),{
+      userId:currentUser.uid,email:currentUser.email,workType,subject,
+      workTitle:$("workTitle").value.trim(),workNote:$("workNote").value.trim(),
+      startedAtMs:timerStartMs,updatedAt:serverTimestamp()
+    });
+    $("timerMessage").textContent="🟢 Work started.";
+    $("timerMessage").style.color="#4ade80";
+  }catch(e){console.error(e);timerRunning=false;clearInterval(timerInterval);$("timerMessage").textContent="Could not start work.";}
+});
+
+$("stopTimer").addEventListener("click",async()=>{
+  if(!currentUser||!timerRunning||!timerStartMs){$("timerMessage").textContent="Timer is not running.";return;}
+  const endedAtMs=Date.now();
+  const durationSeconds=Math.floor((endedAtMs-timerStartMs)/1000);
+  const workType=$("workType").value;
+  const subject=workType==="Study"?($("studySubject").value==="Other"?$("customSubject").value.trim():$("studySubject").value):"";
+  try{
+    await addDoc(collection(db,"workSessions"),{
+      userId:currentUser.uid,email:currentUser.email,workType,subject,
+      workTitle:$("workTitle").value.trim(),workNote:$("workNote").value.trim(),
+      completedCount:Number($("sessionCompleted").value)||0,
+      sessionProgress:Number($("sessionProgress").value)||0,
+      durationSeconds,startedAtMs:timerStartMs,endedAtMs,dateKey:todayKey(),createdAt:serverTimestamp()
+    });
+    await deleteDoc(doc(db,"activeTimers",currentUser.uid));
+    clearInterval(timerInterval);timerInterval=null;timerStartMs=null;timerRunning=false;
+    $("timer").textContent="00:00:00";
+    $("timerMessage").textContent=`✅ Saved ${formatTime(durationSeconds)} of ${workType}.`;
+    $("timerMessage").style.color="#4ade80";
+    $("workTitle").value="";$("workNote").value="";
+    $("sessionCompleted").value=0;$("sessionProgress").value=0;
+    await loadMyStats();await loadLeaderboard();await loadTeamActivity();
+  }catch(e){console.error(e);$("timerMessage").textContent="Could not save work session.";}
+});
+
+async function loadMyStats(){
+  if(!currentUser)return;
+  const m=await getDoc(doc(db,"members",currentUser.uid));
+  const d=m.exists()?m.data():{};
+  const target=Number(d.targetNumber)||0,completed=Number(d.completedNumber)||0;
+  updateProgressUI(target,completed);
+  $("myRating").textContent=Number(d.performance??d.rating??0)?Number(d.performance??d.rating).toFixed(1)+" ⭐":"0";
+  const snap=await getDocs(query(collection(db,"workSessions"),where("userId","==",currentUser.uid)));
+  let sec=0;
+  snap.forEach(x=>{const v=x.data();if(v.dateKey===todayKey())sec+=Number(v.durationSeconds)||0;});
+  $("myHours").textContent=(sec/3600).toFixed(1);
+}
+
+function startPeriod(mode){
+  const d=new Date();d.setHours(0,0,0,0);
+  if(mode==="daily")return d.getTime();
+  const day=d.getDay(),diff=day===0?6:day-1;
+  d.setDate(d.getDate()-diff);
+  return d.getTime();
+}
+async function loadLeaderboard(){
+  try{
+    const [membersSnap,sessionsSnap]=await Promise.all([
+      getDocs(collection(db,"members")),getDocs(collection(db,"workSessions"))
+    ]);
+    const start=startPeriod(leaderboardMode), map={};
+    sessionsSnap.forEach(x=>{
+      const d=x.data(),id=d.userId;if(!id)return;
+      const when=Number(d.startedAtMs)||Number(d.endedAtMs)||d.createdAt?.toMillis?.()||0;
+      if(when>=start)map[id]=(map[id]||0)+(Number(d.durationSeconds)||0);
+    });
+    const arr=[];
+    membersSnap.forEach(x=>{
+      const d=x.data();
+      arr.push({
+        id:x.id,email:d.email||"Member",hours:map[x.id]||0,
+        progress:progressValue(d.targetNumber,d.completedNumber),
+        completed:Number(d.completedNumber)||0,rating:Number(d.performance??d.rating??0)||0
+      });
+    });
+    arr.sort((a,b)=>b.hours-a.hours||b.progress-a.progress||b.rating-a.rating);
+    $("podium").innerHTML=arr.slice(0,3).map((m,i)=>`
+      <div class="podium-item"><div class="medal">${["🥇","🥈","🥉"][i]}</div>
+      <strong>${escapeHtml(m.email)}</strong><small>${(m.hours/3600).toFixed(1)}h</small></div>`).join("");
+    $("leaderboard").innerHTML=arr.length?arr.map((m,i)=>`
+      <div class="rank-card">
+        <div class="rank-num">#${i+1}</div>
+        <div class="rank-info"><strong>${escapeHtml(m.email)}</strong>
+        <small>Progress ${m.progress}% • Completed ${m.completed} • ⭐ ${m.rating.toFixed(1)}</small></div>
+        <div class="rank-right"><strong>${(m.hours/3600).toFixed(1)}h</strong><small>${leaderboardMode==="daily"?"today":"this week"}</small></div>
+      </div>`).join(""):"No team data yet.";
+  }catch(e){console.error(e);$("leaderboard").textContent="Could not load leaderboard.";}
+}
+$("dailyBtn").onclick=async()=>{leaderboardMode="daily";$("dailyBtn").classList.add("active");$("weeklyBtn").classList.remove("active");await loadLeaderboard();};
+$("weeklyBtn").onclick=async()=>{leaderboardMode="weekly";$("weeklyBtn").classList.add("active");$("dailyBtn").classList.remove("active");await loadLeaderboard();};
+
+async function loadTeamActivity(){
+  try{
+    const snap=await getDocs(query(collection(db,"workSessions"),orderBy("createdAt","desc")));
+    const docs=[];snap.forEach(x=>docs.push({id:x.id,d:x.data()}));
+    $("teamActivity").innerHTML=docs.slice(0,40).map(({d})=>{
+      const when=safeDate(d);
+      const date=when?when.toLocaleString():"Recent";
+      const label=d.workType==="Study"?`📚 Study • ${escapeHtml(d.subject||"Subject")}`:`${escapeHtml(d.workType||"Work")}`;
+      return `<div class="activity">
+        <div class="activity-top"><strong>${escapeHtml(d.email||"Member")}</strong><span class="badge">${label}</span></div>
+        <p><b>${escapeHtml(d.workTitle||"Work session")}</b>${d.workNote?`<br>${escapeHtml(d.workNote)}`:""}</p>
+        <p>⏱️ ${formatTime(d.durationSeconds)} &nbsp; • &nbsp; 📈 ${Number(d.sessionProgress)||0}% &nbsp; • &nbsp; ✅ ${Number(d.completedCount)||0} completed</p>
+        <small>${date}</small>
+      </div>`;
+    }).join("")||"No work activity yet.";
+  }catch(e){console.error(e);$("teamActivity").textContent="Could not load team activity. Check Firestore permissions.";}
+}
+
+$("submitIdea").onclick=async()=>{
+  const text=$("idea").value.trim();if(!text){$("ideaMessage").textContent="Write an idea first.";return;}
+  try{
+    await addDoc(collection(db,"ideas"),{userId:currentUser.uid,email:currentUser.email,idea:text,createdAt:serverTimestamp(),updatedAt:serverTimestamp()});
+    $("idea").value="";$("ideaMessage").textContent="Idea shared!";
+    $("ideaMessage").style.color="#4ade80";await loadIdeas();
+  }catch(e){console.error(e);$("ideaMessage").textContent="Could not share idea.";}
+};
+async function loadIdeas(){
+  try{
+    const snap=await getDocs(query(collection(db,"ideas"),orderBy("createdAt","desc")));
+    $("ideasList").innerHTML="";
+    snap.forEach(x=>{
+      const d=x.data(),div=document.createElement("div");div.className="idea-item";
+      div.innerHTML=`<div class="idea-email">${escapeHtml(d.email||"Team Member")}</div><div class="idea-text">${escapeHtml(d.idea||"")}</div>`;
+      if(currentUser.uid===d.userId||currentUser.email===ADMIN_EMAIL){
+        const actions=document.createElement("div");actions.className="two";
+        if(currentUser.uid===d.userId){
+          const edit=document.createElement("button");edit.textContent="✏️ Edit";edit.onclick=async()=>{
+            const n=prompt("Edit idea:",d.idea||"");if(n===null)return;
+            if(!n.trim())return alert("Idea cannot be empty.");
+            await updateDoc(doc(db,"ideas",x.id),{idea:n.trim(),updatedAt:serverTimestamp()});await loadIdeas();
+          };actions.appendChild(edit);
+        }
+        const del=document.createElement("button");del.textContent="🗑️ Delete";del.className="danger";del.onclick=async()=>{
+          if(!confirm("Delete this idea?"))return;await deleteDoc(doc(db,"ideas",x.id));await loadIdeas();
+        };actions.appendChild(del);div.appendChild(actions);
+      }
+      $("ideasList").appendChild(div);
+    });
+    if(!snap.size)$("ideasList").textContent="No ideas yet.";
+  }catch(e){console.error(e);$("ideasList").textContent="Could not load ideas.";}
+}
+
+async function loadRatingPanel(){
+  if(currentUser.email!==ADMIN_EMAIL)return;
+  $("adminRatingCard").classList.remove("hidden");
+  const snap=await getDocs(collection(db,"members"));$("ratingList").innerHTML="";
+  snap.forEach(x=>{
+    if(x.id===currentUser.uid)return;
+    const d=x.data(),row=document.createElement("div");row.className="idea-item";
+    row.innerHTML=`<strong>${escapeHtml(d.email||"Member")}</strong>`;
+    const select=document.createElement("select");
+    [1,2,3,4,5].forEach(v=>{const o=document.createElement("option");o.value=v;o.textContent=v+" ⭐";select.appendChild(o);});
+    const current=Number(d.performance??d.rating??0);if(current>=1&&current<=5)select.value=Math.round(current);
+    const btn=document.createElement("button");btn.textContent="⭐ Save Rating";btn.onclick=async()=>{
+      await updateDoc(doc(db,"members",x.id),{performance:Number(select.value),rating:Number(select.value),ratingUpdatedAt:serverTimestamp(),ratedBy:currentUser.uid});
+      await loadRatingPanel();await loadLeaderboard();await loadMyStats();
+    };
+    row.append(select,btn);$("ratingList").appendChild(row);
+  });
+}
+
+$("logout").onclick=async()=>{await signOut(auth);location.href="index.html";};
+
+onAuthStateChanged(auth,async user=>{
+  if(!user){location.href="index.html";return;}
+  currentUser=user;$("userEmail").textContent=user.email;
+  try{
+    await loadMember();await restoreTimer();await loadMyStats();
+    await loadLeaderboard();await loadTeamActivity();await loadIdeas();await loadRatingPanel();
+  }catch(e){console.error("Dashboard loading error:",e);}
+});
+</script>
+</body>
+</html>

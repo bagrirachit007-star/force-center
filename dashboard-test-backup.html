@@ -1,0 +1,1685 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>FORCE CENTER</title>
+
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background: #0b0b0f;
+    color: white;
+    min-height: 100vh;
+}
+
+header {
+    background: #15151d;
+    padding: 22px;
+    text-align: center;
+    border-bottom: 1px solid #292934;
+}
+
+header h1 {
+    font-size: 28px;
+}
+
+header p {
+    color: #aaa;
+    margin-top: 6px;
+}
+
+.container {
+    width: 100%;
+    max-width: 1000px;
+    margin: auto;
+    padding: 25px 18px;
+}
+
+.welcome {
+    margin-bottom: 22px;
+}
+
+.welcome p {
+    color: #aaa;
+    margin-top: 6px;
+}
+
+.card {
+    background: #171720;
+    border: 1px solid #292934;
+    border-radius: 15px;
+    padding: 22px;
+    margin-bottom: 20px;
+}
+
+.card h2 {
+    margin-bottom: 15px;
+}
+
+input,
+textarea,
+select {
+    width: 100%;
+    padding: 13px;
+    margin-top: 10px;
+    background: #0e0e14;
+    color: white;
+    border: 1px solid #444;
+    border-radius: 8px;
+    outline: none;
+}
+
+textarea {
+    min-height: 100px;
+    resize: vertical;
+}
+
+button {
+    width: 100%;
+    padding: 13px;
+    margin-top: 12px;
+    border: none;
+    border-radius: 8px;
+    background: #1473e6;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+button:hover {
+    opacity: 0.85;
+}
+
+.timer {
+    font-size: 42px;
+    font-weight: bold;
+    text-align: center;
+    margin: 20px 0;
+}
+
+.timer-buttons {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+
+.stop {
+    background: #e53935;
+}
+
+.complete {
+    background: #16a34a;
+}
+
+.progress-box {
+    margin-top: 15px;
+}
+
+.progress-bar {
+    width: 100%;
+    height: 18px;
+    background: #292934;
+    border-radius: 20px;
+    overflow: hidden;
+    margin-top: 8px;
+}
+
+.progress-fill {
+    width: 0%;
+    height: 100%;
+    background: #1473e6;
+    transition: width 0.3s;
+}
+
+.stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+}
+
+.stat {
+    background: #0e0e14;
+    border: 1px solid #292934;
+    border-radius: 10px;
+    padding: 15px;
+    text-align: center;
+}
+
+.stat h3 {
+    font-size: 24px;
+}
+
+.stat p {
+    color: #aaa;
+    margin-top: 5px;
+    font-size: 13px;
+}
+
+.leaderboard-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px;
+    margin-top: 10px;
+    background: #0e0e14;
+    border-radius: 10px;
+}
+
+.rank {
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.idea-item {
+    background: #0e0e14;
+    border: 1px solid #292934;
+    border-radius: 10px;
+    padding: 15px;
+    margin-top: 12px;
+}
+
+.idea-email {
+    color: #65a9ff;
+    font-size: 13px;
+    margin-bottom: 8px;
+}
+
+.idea-text {
+    color: #eee;
+    line-height: 1.5;
+}
+
+.message {
+    margin-top: 10px;
+    text-align: center;
+}
+
+.logout {
+    background: #e53935;
+}
+
+.period-btn {
+    margin-top: 0;
+    font-size: 13px;
+    padding: 10px 6px;
+}
+
+.period-btn.active {
+    outline: 2px solid #1473e6;
+}
+
+@media (max-width: 700px) {
+    .stats {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .timer-buttons {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 450px) {
+    .stats {
+        grid-template-columns: 1fr;
+    }
+}
+</style>
+
+</head>
+
+<body>
+
+<header>
+    <h1>FORCE CENTER</h1>
+    <p>TEAM WORK MANAGEMENT</p>
+</header>
+
+<div class="container">
+
+    <div class="welcome">
+        <h2>Team Member Dashboard 👋</h2>
+        <p id="userEmail">Loading...</p>
+    </div>
+
+    <!-- MY TARGET -->
+
+    <div class="card">
+
+        <h2>🎯 My Target</h2>
+
+        <input
+            type="text"
+            id="target"
+            placeholder="Example: Edit 5 videos today"
+        >
+
+        <input
+            type="number"
+            id="targetNumber"
+            placeholder="Target quantity (Example: 5)"
+            min="1"
+        >
+
+        <input
+            type="number"
+            id="completedNumber"
+            placeholder="Completed quantity"
+            min="0"
+        >
+
+        <button id="saveTarget">
+            💾 Save Target
+        </button>
+
+        <button id="completeTarget" class="complete">
+            ✅ Update Progress
+        </button>
+
+        <p id="targetMessage" class="message"></p>
+
+        <div class="progress-box">
+
+            <p>
+                Progress:
+                <span id="progressText">0%</span>
+            </p>
+
+            <div class="progress-bar">
+                <div
+                    id="progressFill"
+                    class="progress-fill"
+                ></div>
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- WORK TIMER -->
+
+    <div class="card">
+
+        <h2>⏱️ Work Timer</h2>
+
+        <p>Select what you are working on:</p>
+
+        <select id="workType">
+            <option value="Video Editing">Video Editing</option>
+            <option value="Graphic Design">Graphic Design</option>
+            <option value="Trading">Trading</option>
+            <option value="Study">Study</option>
+            <option value="Other">Other</option>
+        </select>
+
+        <div id="timer" class="timer">
+            00:00:00
+        </div>
+
+        <div class="timer-buttons">
+
+            <button id="startTimer">
+                ▶ Start
+            </button>
+
+            <button id="stopTimer" class="stop">
+                ⏹ Stop
+            </button>
+
+        </div>
+
+        <p id="timerMessage" class="message"></p>
+
+    </div>
+
+
+    <!-- MY STATS -->
+
+    <div class="card">
+
+        <h2>📊 My Stats</h2>
+
+        <div class="stats">
+
+            <div class="stat">
+                <h3 id="myCompleted">0</h3>
+                <p>Completed</p>
+            </div>
+
+            <div class="stat">
+                <h3 id="myProgress">0%</h3>
+                <p>Progress</p>
+            </div>
+
+            <div class="stat">
+                <h3 id="myHours">0</h3>
+                <p>Work Hours</p>
+            </div>
+
+            <div class="stat">
+                <h3 id="myRating">0</h3>
+                <p>Rating</p>
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- TIME + PROGRESS HISTORY -->
+
+    <div class="card">
+        <h2>📈 Time & Progress History</h2>
+        <p style="color:#aaa;margin-bottom:12px;">Saved work time and progress for each period.</p>
+
+        <div class="period-buttons" style="display:grid;grid-template-columns:repeat(5,1fr);gap:8px;">
+            <button class="period-btn" data-period="daily">📅 Daily</button>
+            <button class="period-btn" data-period="weekly">🗓️ Weekly</button>
+            <button class="period-btn" data-period="monthly">📆 Monthly</button>
+            <button class="period-btn" data-period="yearly">📊 Yearly</button>
+            <button class="period-btn" data-period="total">♾️ Total</button>
+        </div>
+
+        <div class="stats" style="margin-top:15px;">
+            <div class="stat">
+                <h3 id="periodHours">0.0h</h3>
+                <p id="periodHoursLabel">Daily Work Time</p>
+            </div>
+            <div class="stat">
+                <h3 id="periodProgress">0%</h3>
+                <p id="periodProgressLabel">Daily Progress</p>
+            </div>
+            <div class="stat">
+                <h3 id="periodCompleted">0/0</h3>
+                <p>Completed / Target</p>
+            </div>
+            <div class="stat">
+                <h3 id="periodSessions">0</h3>
+                <p>Work Sessions</p>
+            </div>
+        </div>
+        <p id="periodMessage" class="message"></p>
+    </div>
+
+
+    <!-- LEADERBOARD -->
+
+    <div class="card">
+
+        <h2>🏆 Team Leaderboard</h2>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px;">
+            <button id="dailyBoardBtn">📅 Daily</button>
+            <button id="weeklyBoardBtn">🏆 Weekly</button>
+        </div>
+
+        <p id="leaderboardMode" style="color:#aaa;">
+            Today's work hours ranking
+        </p>
+
+        <div id="leaderboard">
+            Loading leaderboard...
+        </div>
+
+    </div>
+
+
+    <!-- ADMIN RATING -->
+
+    <div class="card" id="adminRatingCard" style="display:none;">
+        <h2>⭐ Rate Team Members</h2>
+        <p style="color:#aaa;">Owner/Admin can rate members from 1 to 5.</p>
+        <div id="ratingList">Loading members...</div>
+    </div>
+
+    <!-- TEAM IDEAS -->
+
+    <div class="card">
+
+        <h2>💡 Team Ideas</h2>
+
+        <textarea
+            id="idea"
+            placeholder="Share an idea with the whole team..."
+        ></textarea>
+
+        <button id="submitIdea">
+            🚀 Share Idea
+        </button>
+
+        <p id="ideaMessage" class="message"></p>
+
+        <div id="ideasList">
+            Loading ideas...
+        </div>
+
+    </div>
+
+
+    <!-- LOGOUT -->
+
+    <button class="logout" id="logout">
+        🚪 Logout
+    </button>
+
+</div>
+
+
+<script type="module">
+
+import { initializeApp }
+from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
+
+import {
+    getAuth,
+    onAuthStateChanged,
+    signOut
+}
+from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
+
+import {
+    getFirestore,
+    doc,
+    setDoc,
+    getDoc,
+    getDocs,
+    addDoc,
+    updateDoc,
+    deleteDoc,
+    collection,
+    query,
+    orderBy,
+    where,
+    serverTimestamp,
+    Timestamp
+}
+from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
+
+
+/* ==========================================
+   FIREBASE
+========================================== */
+
+const firebaseConfig = {
+
+    apiKey:
+        "AIzaSyCOTV3I0bJj1H3Jc4CU-bb-WY3Q3947bSY",
+
+    authDomain:
+        "team-app-c7b71.firebaseapp.com",
+
+    projectId:
+        "team-app-c7b71",
+
+    storageBucket:
+        "team-app-c7b71.firebasestorage.app",
+
+    messagingSenderId:
+        "697657748554",
+
+    appId:
+        "1:697657748554:web:f20282dd2f537cc5b70ab3"
+};
+
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+let currentUser = null;
+
+// CHANGE THIS to the Gmail used by your Owner/Admin Firebase account.
+const ADMIN_EMAIL = "YOUR_ADMIN_GMAIL@gmail.com";
+
+let leaderboardMode = "daily";
+let timerStartMs = null;
+
+
+/* ==========================================
+   PROGRESS CALCULATION
+========================================== */
+
+function calculateProgress(target, completed) {
+
+    target = Number(target) || 0;
+    completed = Number(completed) || 0;
+
+    if (target <= 0) {
+        return 0;
+    }
+
+    if (completed < 0) {
+        completed = 0;
+    }
+
+    const percentage =
+        Math.round((completed / target) * 100);
+
+    return Math.min(100, percentage);
+}
+
+
+/* ==========================================
+   DISPLAY PROGRESS
+========================================== */
+
+function displayProgress(target, completed) {
+
+    const percentage =
+        calculateProgress(target, completed);
+
+    const progressText =
+        document.getElementById("progressText");
+
+    const progressFill =
+        document.getElementById("progressFill");
+
+    const myProgress =
+        document.getElementById("myProgress");
+
+    const myCompleted =
+        document.getElementById("myCompleted");
+
+    if (progressText) {
+        progressText.textContent =
+            percentage + "%";
+    }
+
+    if (progressFill) {
+        progressFill.style.width =
+            percentage + "%";
+    }
+
+    if (myProgress) {
+        myProgress.textContent =
+            percentage + "%";
+    }
+
+    if (myCompleted) {
+        myCompleted.textContent =
+            Number(completed) || 0;
+    }
+
+    return percentage;
+}
+
+
+/* ==========================================
+   TIMER
+========================================== */
+
+let timerInterval = null;
+let timerSeconds = 0;
+let timerRunning = false;
+
+function todayKey() {
+    const d = new Date();
+    return d.getFullYear() + "-" +
+        String(d.getMonth() + 1).padStart(2, "0") + "-" +
+        String(d.getDate()).padStart(2, "0");
+}
+
+function formatDuration(totalSeconds) {
+    totalSeconds = Math.max(0, Math.floor(Number(totalSeconds) || 0));
+    const h = Math.floor(totalSeconds / 3600);
+    const m = Math.floor((totalSeconds % 3600) / 60);
+    const s = totalSeconds % 60;
+    return String(h).padStart(2, "0") + ":" +
+        String(m).padStart(2, "0") + ":" +
+        String(s).padStart(2, "0");
+}
+
+function updateTimerDisplay() {
+    document.getElementById("timer").textContent =
+        formatDuration(timerSeconds);
+}
+
+function tickTimer() {
+    if (!timerStartMs) return;
+    timerSeconds = Math.floor((Date.now() - timerStartMs) / 1000);
+    updateTimerDisplay();
+}
+
+async function saveTimerState(startedAtMs, workType) {
+    await setDoc(
+        doc(db, "activeTimers", currentUser.uid),
+        {
+            userId: currentUser.uid,
+            email: currentUser.email,
+            workType: workType,
+            startedAtMs: startedAtMs,
+            dateKey: todayKey(),
+            updatedAt: serverTimestamp()
+        }
+    );
+}
+
+async function clearTimerState() {
+    await deleteDoc(doc(db, "activeTimers", currentUser.uid));
+}
+
+async function restoreActiveTimer() {
+    if (!currentUser) return;
+
+    try {
+        const snap = await getDoc(doc(db, "activeTimers", currentUser.uid));
+
+        if (!snap.exists()) {
+            timerRunning = false;
+            timerStartMs = null;
+            timerSeconds = 0;
+            updateTimerDisplay();
+            return;
+        }
+
+        const data = snap.data();
+        timerStartMs = Number(data.startedAtMs) || null;
+
+        if (!timerStartMs) return;
+
+        document.getElementById("workType").value =
+            data.workType || "Other";
+
+        timerRunning = true;
+        clearInterval(timerInterval);
+        tickTimer();
+        timerInterval = setInterval(tickTimer, 1000);
+
+        document.getElementById("timerMessage").textContent =
+            "Timer restored — work is still running.";
+    } catch (error) {
+        console.error("Restore timer error:", error);
+    }
+}
+
+document.getElementById("startTimer")
+.addEventListener("click", async () => {
+    if (!currentUser) {
+        alert("Please login first.");
+        return;
+    }
+
+    if (timerRunning) return;
+
+    try {
+        timerStartMs = Date.now();
+        timerSeconds = 0;
+        timerRunning = true;
+
+        const workType =
+            document.getElementById("workType").value;
+
+        await saveTimerState(timerStartMs, workType);
+
+        clearInterval(timerInterval);
+        tickTimer();
+        timerInterval = setInterval(tickTimer, 1000);
+
+        document.getElementById("timerMessage").textContent =
+            "Timer started.";
+        document.getElementById("timerMessage").style.color =
+            "lightgreen";
+    } catch (error) {
+        console.error("Start timer error:", error);
+        timerRunning = false;
+        timerStartMs = null;
+        document.getElementById("timerMessage").textContent =
+            "Could not start timer.";
+        document.getElementById("timerMessage").style.color = "red";
+    }
+});
+
+document.getElementById("stopTimer")
+.addEventListener("click", async () => {
+    if (!currentUser) {
+        alert("Please login first.");
+        return;
+    }
+
+    if (!timerRunning || !timerStartMs) {
+        document.getElementById("timerMessage").textContent =
+            "Timer is not running.";
+        return;
+    }
+
+    const stopMs = Date.now();
+    const duration = Math.max(0, Math.floor((stopMs - timerStartMs) / 1000));
+    const workType =
+        document.getElementById("workType").value;
+
+    try {
+        await addDoc(collection(db, "workSessions"), {
+            userId: currentUser.uid,
+            email: currentUser.email,
+            workType: workType,
+            durationSeconds: duration,
+            dateKey: todayKey(),
+            startedAtMs: timerStartMs,
+            endedAtMs: stopMs,
+            createdAt: serverTimestamp()
+        });
+
+        await clearTimerState();
+
+        clearInterval(timerInterval);
+        timerInterval = null;
+        timerRunning = false;
+        timerStartMs = null;
+        timerSeconds = 0;
+        updateTimerDisplay();
+
+        document.getElementById("timerMessage").textContent =
+            "Work session saved successfully!";
+        document.getElementById("timerMessage").style.color =
+            "lightgreen";
+
+        await loadMyStats();
+        await loadPeriodStats(selectedPeriod);
+        await loadLeaderboard();
+    } catch (error) {
+        console.error("Timer save error:", error);
+        document.getElementById("timerMessage").textContent =
+            "Could not save work session.";
+        document.getElementById("timerMessage").style.color = "red";
+    }
+});
+
+
+/* ==========================================
+   AUTH
+========================================== */
+
+onAuthStateChanged(auth, async (user) => {
+
+    if (!user) {
+
+        window.location.href =
+            "index.html";
+
+        return;
+    }
+
+    currentUser = user;
+
+    document.getElementById("userEmail")
+        .textContent =
+        user.email;
+
+    await loadMemberData();
+
+    await restoreActiveTimer();
+    await loadMyStats();
+    await loadPeriodStats("daily");
+    await loadLeaderboard();
+    await loadIdeas();
+    await loadRatingPanel();
+
+});
+
+
+/* ==========================================
+   LOAD MEMBER DATA
+========================================== */
+
+async function loadMemberData() {
+
+    if (!currentUser) {
+        return;
+    }
+
+    try {
+
+        const memberRef =
+            doc(
+                db,
+                "members",
+                currentUser.uid
+            );
+
+        const memberSnap =
+            await getDoc(memberRef);
+
+        if (!memberSnap.exists()) {
+
+            displayProgress(0, 0);
+
+            return;
+        }
+
+        const data =
+            memberSnap.data();
+
+        const target =
+            Number(data.targetNumber) || 0;
+
+        const completed =
+            Number(data.completedNumber) || 0;
+
+        document.getElementById("target")
+            .value =
+            data.target || "";
+
+        document.getElementById("targetNumber")
+            .value =
+            target || "";
+
+        document.getElementById("completedNumber")
+            .value =
+            completed;
+
+        displayProgress(
+            target,
+            completed
+        );
+
+    } catch (error) {
+
+        console.error(
+            "Could not load member data:",
+            error
+        );
+    }
+}
+
+
+/* ==========================================
+   SAVE TARGET
+========================================== */
+
+document.getElementById("saveTarget")
+.addEventListener("click", async () => {
+
+    if (!currentUser) {
+
+        alert("Please login first.");
+
+        return;
+    }
+
+    const target =
+        document.getElementById("target")
+            .value
+            .trim();
+
+    const targetNumber =
+        Number(
+            document.getElementById("targetNumber")
+                .value
+        );
+
+    if (!target) {
+
+        alert(
+            "Please enter your target."
+        );
+
+        return;
+    }
+
+    if (
+        !Number.isFinite(targetNumber) ||
+        targetNumber < 1
+    ) {
+
+        alert(
+            "Please enter a valid target quantity."
+        );
+
+        return;
+    }
+
+    try {
+
+        await setDoc(
+            doc(
+                db,
+                "members",
+                currentUser.uid
+            ),
+            {
+                email: currentUser.email,
+                target: target,
+                targetNumber: targetNumber,
+                completedNumber: 0,
+                updatedAt: serverTimestamp()
+            },
+            {
+                merge: true
+            }
+        );
+
+        document.getElementById("completedNumber")
+            .value = 0;
+
+        displayProgress(
+            targetNumber,
+            0
+        );
+
+        document.getElementById("targetMessage")
+            .textContent =
+            "Target saved successfully!";
+
+        document.getElementById("targetMessage")
+            .style.color =
+            "lightgreen";
+
+        await loadLeaderboard();
+
+        await loadMyStats();
+
+    } catch (error) {
+
+        console.error(
+            "Save target error:",
+            error
+        );
+
+        document.getElementById("targetMessage")
+            .textContent =
+            "Could not save target.";
+
+        document.getElementById("targetMessage")
+            .style.color =
+            "red";
+    }
+
+});
+
+
+/* ==========================================
+   UPDATE PROGRESS
+========================================== */
+
+document.getElementById("completeTarget")
+.addEventListener("click", async () => {
+
+    if (!currentUser) {
+
+        alert("Please login first.");
+
+        return;
+    }
+
+    const target =
+        Number(
+            document.getElementById("targetNumber")
+                .value
+        );
+
+    const completed =
+        Number(
+            document.getElementById("completedNumber")
+                .value
+        );
+
+    if (
+        !Number.isFinite(target) ||
+        target < 1
+    ) {
+
+        alert(
+            "Please save your target first."
+        );
+
+        return;
+    }
+
+    if (
+        !Number.isFinite(completed) ||
+        completed < 0
+    ) {
+
+        alert(
+            "Please enter a valid completed quantity."
+        );
+
+        return;
+    }
+
+    try {
+
+        await setDoc(
+            doc(
+                db,
+                "members",
+                currentUser.uid
+            ),
+            {
+                completedNumber: completed,
+                progressUpdatedAt:
+                    serverTimestamp()
+            },
+            {
+                merge: true
+            }
+        );
+
+        // Save a historical progress snapshot so daily/weekly/monthly/yearly
+        // progress can be shown later.
+        await addDoc(collection(db, "progressHistory"), {
+            userId: currentUser.uid,
+            email: currentUser.email,
+            targetNumber: target,
+            completedNumber: completed,
+            progress: calculateProgress(target, completed),
+            createdAt: serverTimestamp(),
+            createdAtMs: Date.now()
+        });
+
+        /*
+         * तुरंत screen पर progress दिखाओ
+         */
+        displayProgress(
+            target,
+            completed
+        );
+
+        document.getElementById("targetMessage")
+            .textContent =
+            "Progress updated successfully!";
+
+        document.getElementById("targetMessage")
+            .style.color =
+            "lightgreen";
+
+        /*
+         * Firebase से फिर data load करो
+         */
+        await loadMemberData();
+
+        await loadMyStats();
+        await loadPeriodStats(selectedPeriod);
+
+        await loadLeaderboard();
+
+    } catch (error) {
+
+        console.error(
+            "Progress update error:",
+            error
+        );
+
+        document.getElementById("targetMessage")
+            .textContent =
+            "Could not update progress.";
+
+        document.getElementById("targetMessage")
+            .style.color =
+            "red";
+    }
+
+});
+
+
+/* ==========================================
+   MY STATS
+========================================== */
+
+async function loadMyStats() {
+    if (!currentUser) return;
+
+    try {
+        const memberSnap = await getDoc(
+            doc(db, "members", currentUser.uid)
+        );
+
+        let target = 0;
+        let completed = 0;
+        let rating = 0;
+
+        if (memberSnap.exists()) {
+            const data = memberSnap.data();
+            target = Number(data.targetNumber) || 0;
+            completed = Number(data.completedNumber) || 0;
+            rating = Number(data.performance ?? data.rating ?? 0) || 0;
+        }
+
+        const progress = calculateProgress(target, completed);
+
+        document.getElementById("myCompleted").textContent = completed;
+        document.getElementById("myProgress").textContent = progress + "%";
+        document.getElementById("myRating").textContent =
+            rating ? rating.toFixed(1) + " ⭐" : "0";
+        document.getElementById("progressText").textContent = progress + "%";
+        document.getElementById("progressFill").style.width = progress + "%";
+
+        const sessionsSnap = await getDocs(
+            query(
+                collection(db, "workSessions"),
+                where("userId", "==", currentUser.uid)
+            )
+        );
+
+        let totalSeconds = 0;
+        const today = todayKey();
+
+        sessionsSnap.forEach(session => {
+            const data = session.data();
+            if (data.dateKey === today) {
+                totalSeconds += Number(data.durationSeconds) || 0;
+            }
+        });
+
+        document.getElementById("myHours").textContent =
+            (totalSeconds / 3600).toFixed(1);
+
+    } catch (error) {
+        console.error("Could not load stats:", error);
+    }
+}
+
+
+/* ==========================================
+   PERIOD TIME + PROGRESS
+========================================== */
+
+let selectedPeriod = "daily";
+
+function getPeriodStartMs(period) {
+    const now = new Date();
+    if (period === "total") return 0;
+
+    const start = new Date(now);
+    if (period === "daily") {
+        start.setHours(0, 0, 0, 0);
+    } else if (period === "weekly") {
+        const day = start.getDay();
+        const diff = day === 0 ? 6 : day - 1;
+        start.setDate(start.getDate() - diff);
+        start.setHours(0, 0, 0, 0);
+    } else if (period === "monthly") {
+        start.setDate(1);
+        start.setHours(0, 0, 0, 0);
+    } else if (period === "yearly") {
+        start.setMonth(0, 1);
+        start.setHours(0, 0, 0, 0);
+    }
+    return start.getTime();
+}
+
+function periodLabel(period) {
+    return period.charAt(0).toUpperCase() + period.slice(1);
+}
+
+async function loadPeriodStats(period = selectedPeriod) {
+    if (!currentUser) return;
+
+    selectedPeriod = period;
+    document.querySelectorAll(".period-btn").forEach(btn => {
+        btn.classList.toggle("active", btn.dataset.period === period);
+    });
+
+    try {
+        const startMs = getPeriodStartMs(period);
+
+        const sessionsSnap = await getDocs(
+            query(
+                collection(db, "workSessions"),
+                where("userId", "==", currentUser.uid)
+            )
+        );
+
+        let totalSeconds = 0;
+        let sessionCount = 0;
+
+        sessionsSnap.forEach(item => {
+            const data = item.data();
+            const sessionMs = Number(data.startedAtMs) ||
+                (data.createdAt?.toMillis ? data.createdAt.toMillis() : 0);
+            if (sessionMs >= startMs) {
+                totalSeconds += Number(data.durationSeconds) || 0;
+                sessionCount++;
+            }
+        });
+
+        let latestProgress = null;
+        const historySnap = await getDocs(
+            query(
+                collection(db, "progressHistory"),
+                where("userId", "==", currentUser.uid)
+            )
+        );
+
+        historySnap.forEach(item => {
+            const data = item.data();
+            const createdMs = Number(data.createdAtMs) ||
+                (data.createdAt?.toMillis ? data.createdAt.toMillis() : 0);
+            if (createdMs >= startMs) {
+                if (!latestProgress || createdMs > latestProgress.createdMs) {
+                    latestProgress = { ...data, createdMs };
+                }
+            }
+        });
+
+        // For a period with no history, use the current member progress as a fallback.
+        if (!latestProgress) {
+            const memberSnap = await getDoc(doc(db, "members", currentUser.uid));
+            if (memberSnap.exists()) {
+                const data = memberSnap.data();
+                latestProgress = {
+                    targetNumber: Number(data.targetNumber) || 0,
+                    completedNumber: Number(data.completedNumber) || 0,
+                    progress: calculateProgress(data.targetNumber, data.completedNumber)
+                };
+            }
+        }
+
+        const hours = totalSeconds / 3600;
+        const progress = latestProgress ?
+            calculateProgress(latestProgress.targetNumber, latestProgress.completedNumber) : 0;
+        const completed = latestProgress ? Number(latestProgress.completedNumber) || 0 : 0;
+        const target = latestProgress ? Number(latestProgress.targetNumber) || 0 : 0;
+
+        document.getElementById("periodHours").textContent = hours.toFixed(1) + "h";
+        document.getElementById("periodHoursLabel").textContent = periodLabel(period) + " Work Time";
+        document.getElementById("periodProgress").textContent = progress + "%";
+        document.getElementById("periodProgressLabel").textContent = periodLabel(period) + " Progress";
+        document.getElementById("periodCompleted").textContent = completed + "/" + target;
+        document.getElementById("periodSessions").textContent = sessionCount;
+        document.getElementById("periodMessage").textContent =
+            periodLabel(period) + " data saved in Firebase.";
+        document.getElementById("periodMessage").style.color = "lightgreen";
+    } catch (error) {
+        console.error("Period stats error:", error);
+        document.getElementById("periodMessage").textContent =
+            "Could not load " + periodLabel(period) + " data.";
+        document.getElementById("periodMessage").style.color = "red";
+    }
+}
+
+document.querySelectorAll(".period-btn").forEach(btn => {
+    btn.addEventListener("click", () => loadPeriodStats(btn.dataset.period));
+});
+
+/* ==========================================
+   LEADERBOARD
+========================================== */
+
+async function loadLeaderboard() {
+    const leaderboard = document.getElementById("leaderboard");
+
+    try {
+        const membersSnap = await getDocs(collection(db, "members"));
+        const sessionSnap = await getDocs(collection(db, "workSessions"));
+
+        const now = new Date();
+        const start = new Date(now);
+
+        if (leaderboardMode === "daily") {
+            start.setHours(0, 0, 0, 0);
+        } else {
+            // Monday 00:00 through now
+            const day = start.getDay();
+            const diff = day === 0 ? 6 : day - 1;
+            start.setDate(start.getDate() - diff);
+            start.setHours(0, 0, 0, 0);
+        }
+
+        const startMs = start.getTime();
+        const hoursByUser = {};
+
+        sessionSnap.forEach(docSnap => {
+            const data = docSnap.data();
+            const userId = data.userId;
+            if (!userId) return;
+
+            let sessionStart = Number(data.startedAtMs) || 0;
+
+            if (!sessionStart && data.createdAt?.toMillis) {
+                sessionStart = data.createdAt.toMillis();
+            }
+
+            if (sessionStart >= startMs) {
+                hoursByUser[userId] =
+                    (hoursByUser[userId] || 0) +
+                    (Number(data.durationSeconds) || 0);
+            }
+        });
+
+        const members = [];
+
+        membersSnap.forEach(item => {
+            const data = item.data();
+            const userId = item.id;
+
+            members.push({
+                userId,
+                email: data.email || "Member",
+                hours: hoursByUser[userId] || 0,
+                rating: Number(data.performance ?? data.rating ?? 0) || 0,
+                progress: calculateProgress(
+                    Number(data.targetNumber) || 0,
+                    Number(data.completedNumber) || 0
+                )
+            });
+        });
+
+        members.sort((a, b) => {
+            if (b.hours !== a.hours) return b.hours - a.hours;
+            return b.rating - a.rating;
+        });
+
+        document.getElementById("leaderboardMode").textContent =
+            leaderboardMode === "daily"
+                ? "Today's work hours ranking"
+                : "This week's work hours ranking";
+
+        leaderboard.innerHTML = "";
+
+        if (!members.length) {
+            leaderboard.textContent = "No team data yet.";
+            return;
+        }
+
+        members.forEach((member, index) => {
+            const div = document.createElement("div");
+            div.className = "leaderboard-item";
+
+            const hours = (member.hours / 3600).toFixed(1);
+
+            div.innerHTML = `
+                <div>
+                    <span class="rank">#${index + 1}</span>
+                    &nbsp; ${member.email}
+                </div>
+                <div style="text-align:right;">
+                    <strong>${hours}h</strong><br>
+                    <small>⭐ ${member.rating ? member.rating.toFixed(1) : "0"}</small>
+                </div>
+            `;
+
+            leaderboard.appendChild(div);
+        });
+
+    } catch (error) {
+        console.error("Leaderboard error:", error);
+        leaderboard.textContent = "Could not load leaderboard.";
+    }
+}
+
+document.getElementById("dailyBoardBtn").addEventListener("click", async () => {
+    leaderboardMode = "daily";
+    await loadLeaderboard();
+});
+
+document.getElementById("weeklyBoardBtn").addEventListener("click", async () => {
+    leaderboardMode = "weekly";
+    await loadLeaderboard();
+});
+
+
+/* ==========================================
+   SUBMIT / EDIT / DELETE IDEAS
+========================================== */
+
+document.getElementById("submitIdea")
+.addEventListener("click", async () => {
+    if (!currentUser) {
+        alert("Please login first.");
+        return;
+    }
+
+    const ideaBox = document.getElementById("idea");
+    const idea = ideaBox.value.trim();
+    const message = document.getElementById("ideaMessage");
+
+    if (!idea) {
+        message.textContent = "Please write an idea.";
+        message.style.color = "red";
+        return;
+    }
+
+    try {
+        await addDoc(collection(db, "ideas"), {
+            userId: currentUser.uid,
+            email: currentUser.email,
+            idea: idea,
+            createdAt: serverTimestamp(),
+            updatedAt: serverTimestamp()
+        });
+
+        ideaBox.value = "";
+        message.textContent = "Idea shared with the team!";
+        message.style.color = "lightgreen";
+        await loadIdeas();
+    } catch (error) {
+        console.error("Idea error:", error);
+        message.textContent = "Could not share idea.";
+        message.style.color = "red";
+    }
+});
+
+async function editIdea(id, oldText) {
+    const newText = prompt("Edit your idea:", oldText);
+    if (newText === null) return;
+
+    const cleaned = newText.trim();
+    if (!cleaned) {
+        alert("Idea cannot be empty.");
+        return;
+    }
+
+    try {
+        await updateDoc(doc(db, "ideas", id), {
+            idea: cleaned,
+            updatedAt: serverTimestamp()
+        });
+        await loadIdeas();
+    } catch (error) {
+        console.error("Edit idea error:", error);
+        alert("Could not edit idea.");
+    }
+}
+
+async function deleteIdea(id, ownerId) {
+    const isAdmin = currentUser?.email === ADMIN_EMAIL;
+
+    if (currentUser?.uid !== ownerId && !isAdmin) {
+        alert("You can delete only your own idea.");
+        return;
+    }
+
+    if (!confirm("Delete this idea?")) return;
+
+    try {
+        await deleteDoc(doc(db, "ideas", id));
+        await loadIdeas();
+    } catch (error) {
+        console.error("Delete idea error:", error);
+        alert("Could not delete idea.");
+    }
+}
+
+async function loadIdeas() {
+    const ideasList = document.getElementById("ideasList");
+
+    try {
+        const q = query(
+            collection(db, "ideas"),
+            orderBy("createdAt", "desc")
+        );
+
+        const snapshot = await getDocs(q);
+        ideasList.innerHTML = "";
+
+        if (snapshot.empty) {
+            ideasList.textContent = "No ideas yet.";
+            return;
+        }
+
+        snapshot.forEach(item => {
+            const data = item.data();
+            const div = document.createElement("div");
+            div.className = "idea-item";
+
+            const email = document.createElement("div");
+            email.className = "idea-email";
+            email.textContent = data.email || "Team Member";
+
+            const text = document.createElement("div");
+            text.className = "idea-text";
+            text.textContent = data.idea || "";
+
+            const actions = document.createElement("div");
+            actions.style.display = "flex";
+            actions.style.gap = "8px";
+
+            const canEdit = currentUser?.uid === data.userId;
+            const canDelete =
+                currentUser?.uid === data.userId ||
+                currentUser?.email === ADMIN_EMAIL;
+
+            if (canEdit) {
+                const editBtn = document.createElement("button");
+                editBtn.textContent = "✏️ Edit";
+                editBtn.style.background = "#1473e6";
+                editBtn.onclick = () => editIdea(item.id, data.idea || "");
+                actions.appendChild(editBtn);
+            }
+
+            if (canDelete) {
+                const deleteBtn = document.createElement("button");
+                deleteBtn.textContent = "🗑️ Delete";
+                deleteBtn.style.background = "#e53935";
+                deleteBtn.onclick = () => deleteIdea(item.id, data.userId);
+                actions.appendChild(deleteBtn);
+            }
+
+            div.appendChild(email);
+            div.appendChild(text);
+            if (actions.children.length) div.appendChild(actions);
+            ideasList.appendChild(div);
+        });
+
+    } catch (error) {
+        console.error("Ideas error:", error);
+        ideasList.textContent = "Could not load ideas.";
+    }
+}
+
+/* ==========================================
+   ADMIN RATING
+========================================== */
+
+async function loadRatingPanel() {
+    const card = document.getElementById("adminRatingCard");
+    const list = document.getElementById("ratingList");
+
+    if (currentUser?.email !== ADMIN_EMAIL) {
+        card.style.display = "none";
+        return;
+    }
+
+    card.style.display = "block";
+
+    try {
+        const snapshot = await getDocs(collection(db, "members"));
+        list.innerHTML = "";
+
+        snapshot.forEach(item => {
+            const data = item.data();
+
+            if (item.id === currentUser.uid) return;
+
+            const row = document.createElement("div");
+            row.className = "idea-item";
+
+            row.innerHTML = `
+                <div style="margin-bottom:8px;">
+                    <strong>${data.email || "Member"}</strong>
+                    <div style="color:#aaa;">
+                        Current: ${Number(data.performance ?? data.rating ?? 0).toFixed(1)} ⭐
+                    </div>
+                </div>
+            `;
+
+            const select = document.createElement("select");
+            [1,2,3,4,5].forEach(value => {
+                const option = document.createElement("option");
+                option.value = value;
+                option.textContent = value + " ⭐";
+                select.appendChild(option);
+            });
+
+            const currentRating =
+                Number(data.performance ?? data.rating ?? 0);
+            if (currentRating >= 1 && currentRating <= 5) {
+                select.value = String(Math.round(currentRating));
+            }
+
+            const button = document.createElement("button");
+            button.textContent = "⭐ Save Rating";
+            button.onclick = async () => {
+                try {
+                    await updateDoc(doc(db, "members", item.id), {
+                        performance: Number(select.value),
+                        rating: Number(select.value),
+                        ratingUpdatedAt: serverTimestamp(),
+                        ratedBy: currentUser.uid
+                    });
+
+                    await loadRatingPanel();
+                    await loadLeaderboard();
+                    await loadMyStats();
+                    alert("Rating saved.");
+                } catch (error) {
+                    console.error("Rating save error:", error);
+                    alert("Could not save rating.");
+                }
+            };
+
+            row.appendChild(select);
+            row.appendChild(button);
+            list.appendChild(row);
+        });
+    } catch (error) {
+        console.error("Rating panel error:", error);
+        list.textContent = "Could not load members.";
+    }
+}
+
+/* ==========================================
+   LOGOUT
+========================================== */
+
+document.getElementById("logout")
+.addEventListener("click", async () => {
+
+    try {
+
+        await signOut(auth);
+
+        window.location.href =
+            "index.html";
+
+    } catch (error) {
+
+        console.error(
+            "Logout error:",
+            error
+        );
+
+        alert(
+            "Logout failed."
+        );
+    }
+
+});
+
+</script>
+
+</body>
+</html>
+
+[/writing block]

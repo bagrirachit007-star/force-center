@@ -1,0 +1,2307 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>FORCE CENTER</title>
+
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background: #0b0b0f;
+    color: white;
+    min-height: 100vh;
+}
+
+header {
+    background: #15151d;
+    padding: 22px;
+    text-align: center;
+    border-bottom: 1px solid #292934;
+}
+
+header h1 {
+    font-size: 28px;
+}
+
+header p {
+    color: #aaa;
+    margin-top: 6px;
+}
+
+.container {
+    width: 100%;
+    max-width: 1000px;
+    margin: auto;
+    padding: 25px 18px;
+}
+
+.welcome {
+    margin-bottom: 22px;
+}
+
+.welcome p {
+    color: #aaa;
+    margin-top: 6px;
+}
+
+.card {
+    background: #171720;
+    border: 1px solid #292934;
+    border-radius: 15px;
+    padding: 22px;
+    margin-bottom: 20px;
+}
+
+.card h2 {
+    margin-bottom: 15px;
+}
+
+input,
+textarea,
+select {
+    width: 100%;
+    padding: 13px;
+    margin-top: 10px;
+    background: #0e0e14;
+    color: white;
+    border: 1px solid #444;
+    border-radius: 8px;
+    outline: none;
+}
+
+textarea {
+    min-height: 100px;
+    resize: vertical;
+}
+
+button {
+    width: 100%;
+    padding: 13px;
+    margin-top: 12px;
+    border: none;
+    border-radius: 8px;
+    background: #1473e6;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+button:hover {
+    opacity: 0.85;
+}
+
+.timer {
+    font-size: 42px;
+    font-weight: bold;
+    text-align: center;
+    margin: 20px 0;
+}
+
+.timer-buttons {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+
+.stop {
+    background: #e53935;
+}
+
+.complete {
+    background: #16a34a;
+}
+
+.progress-box {
+    margin-top: 15px;
+}
+
+.progress-bar {
+    width: 100%;
+    height: 18px;
+    background: #292934;
+    border-radius: 20px;
+    overflow: hidden;
+    margin-top: 8px;
+}
+
+.progress-fill {
+    width: 0%;
+    height: 100%;
+    background: #1473e6;
+    transition: width 0.3s;
+}
+
+.stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+}
+
+.stat {
+    background: #0e0e14;
+    border: 1px solid #292934;
+    border-radius: 10px;
+    padding: 15px;
+    text-align: center;
+}
+
+.stat h3 {
+    font-size: 24px;
+}
+
+.stat p {
+    color: #aaa;
+    margin-top: 5px;
+    font-size: 13px;
+}
+
+.period-buttons {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 8px;
+    margin-bottom: 18px;
+}
+
+.period-btn {
+    margin-top: 0;
+    background: #292934;
+    font-size: 14px;
+}
+
+.period-btn.active {
+    background: #1473e6;
+}
+
+.history-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+}
+
+.history-box {
+    background: #0e0e14;
+    border: 1px solid #292934;
+    border-radius: 10px;
+    padding: 18px;
+}
+
+.history-box h3 {
+    font-size: 14px;
+    color: #aaa;
+    margin-bottom: 8px;
+}
+
+.history-box p {
+    font-size: 25px;
+    font-weight: bold;
+}
+
+.leaderboard-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px;
+    margin-top: 10px;
+    background: #0e0e14;
+    border-radius: 10px;
+}
+
+.rank {
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.idea-item {
+    background: #0e0e14;
+    border: 1px solid #292934;
+    border-radius: 10px;
+    padding: 15px;
+    margin-top: 12px;
+}
+
+.idea-email {
+    color: #65a9ff;
+    font-size: 13px;
+    margin-bottom: 8px;
+}
+
+.idea-text {
+    color: #eee;
+    line-height: 1.5;
+    white-space: pre-wrap;
+}
+
+.idea-actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 12px;
+}
+
+.idea-actions button {
+    width: auto;
+    margin-top: 0;
+    padding: 8px 14px;
+    font-size: 13px;
+}
+
+.edit-btn {
+    background: #1473e6;
+}
+
+.delete-btn {
+    background: #e53935;
+}
+
+.message {
+    margin-top: 10px;
+    text-align: center;
+}
+
+.logout {
+    background: #e53935;
+}
+
+.small-info {
+    color: #aaa;
+    font-size: 13px;
+    margin-top: 10px;
+}
+
+@media (max-width: 700px) {
+
+    .stats {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .timer-buttons {
+        grid-template-columns: 1fr;
+    }
+
+    .period-buttons {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .history-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 450px) {
+
+    .stats {
+        grid-template-columns: 1fr;
+    }
+
+    .period-buttons {
+        grid-template-columns: 1fr;
+    }
+}
+</style>
+
+</head>
+
+<body>
+
+<header>
+    <h1>FORCE CENTER</h1>
+    <p>TEAM WORK MANAGEMENT</p>
+</header>
+
+<div class="container">
+
+    <div class="welcome">
+        <h2>Team Member Dashboard 👋</h2>
+        <p id="userEmail">Loading...</p>
+    </div>
+
+
+    <!-- MY TARGET -->
+
+    <div class="card">
+
+        <h2>🎯 My Target</h2>
+
+        <input
+            type="text"
+            id="target"
+            placeholder="Example: Edit 5 videos today"
+        >
+
+        <input
+            type="number"
+            id="targetNumber"
+            placeholder="Target quantity (Example: 5)"
+            min="1"
+        >
+
+        <input
+            type="number"
+            id="completedNumber"
+            placeholder="Completed quantity"
+            min="0"
+        >
+
+        <button id="saveTarget">
+            💾 Save Target
+        </button>
+
+        <button id="completeTarget" class="complete">
+            ✅ Update Progress
+        </button>
+
+        <p id="targetMessage" class="message"></p>
+
+        <div class="progress-box">
+
+            <p>
+                Progress:
+                <span id="progressText">0%</span>
+            </p>
+
+            <div class="progress-bar">
+                <div
+                    id="progressFill"
+                    class="progress-fill"
+                ></div>
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- WORK TIMER -->
+
+    <div class="card">
+
+        <h2>⏱️ Work Timer</h2>
+
+        <p>Select what you are working on:</p>
+
+        <select id="workType">
+            <option value="Video Editing">Video Editing</option>
+            <option value="Graphic Design">Graphic Design</option>
+            <option value="Trading">Trading</option>
+            <option value="Study">Study</option>
+            <option value="Other">Other</option>
+        </select>
+
+        <div id="timer" class="timer">
+            00:00:00
+        </div>
+
+        <div class="timer-buttons">
+
+            <button id="startTimer">
+                ▶ Start
+            </button>
+
+            <button id="stopTimer" class="stop">
+                ⏹ Stop
+            </button>
+
+        </div>
+
+        <p id="timerMessage" class="message"></p>
+
+    </div>
+
+
+    <!-- MY STATS -->
+
+    <div class="card">
+
+        <h2>📊 My Stats</h2>
+
+        <div class="stats">
+
+            <div class="stat">
+                <h3 id="myCompleted">0</h3>
+                <p>Completed</p>
+            </div>
+
+            <div class="stat">
+                <h3 id="myProgress">0%</h3>
+                <p>Progress</p>
+            </div>
+
+            <div class="stat">
+                <h3 id="myHours">0</h3>
+                <p>Total Work Hours</p>
+            </div>
+
+            <div class="stat">
+                <h3 id="myRating">0</h3>
+                <p>Rating</p>
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- HISTORY -->
+
+    <div class="card">
+
+        <h2>📈 Time & Progress History</h2>
+
+        <div class="period-buttons">
+
+            <button class="period-btn active" data-period="daily">
+                Daily
+            </button>
+
+            <button class="period-btn" data-period="weekly">
+                Weekly
+            </button>
+
+            <button class="period-btn" data-period="monthly">
+                Monthly
+            </button>
+
+            <button class="period-btn" data-period="yearly">
+                Yearly
+            </button>
+
+            <button class="period-btn" data-period="total">
+                Total
+            </button>
+
+        </div>
+
+        <div class="history-grid">
+
+            <div class="history-box">
+                <h3>⏱️ Work Time</h3>
+                <p id="historyWorkTime">0h 0m</p>
+            </div>
+
+            <div class="history-box">
+                <h3>📊 Progress</h3>
+                <p id="historyProgress">0%</p>
+            </div>
+
+            <div class="history-box">
+                <h3>✅ Completed</h3>
+                <p id="historyCompleted">0 / 0</p>
+            </div>
+
+            <div class="history-box">
+                <h3>📝 Work Sessions</h3>
+                <p id="historySessions">0</p>
+            </div>
+
+        </div>
+
+        <p class="small-info" id="historyInfo">
+            Today's work and progress
+        </p>
+
+    </div>
+
+
+    <!-- LEADERBOARD -->
+
+    <div class="card">
+
+        <h2>🏆 Team Leaderboard</h2>
+
+        <p style="color:#aaa;">
+            Team performance
+        </p>
+
+        <div id="leaderboard">
+            Loading leaderboard...
+        </div>
+
+    </div>
+
+
+    <!-- TEAM IDEAS -->
+
+    <div class="card">
+
+        <h2>💡 Team Ideas</h2>
+
+        <textarea
+            id="idea"
+            placeholder="Share an idea with the whole team..."
+        ></textarea>
+
+        <button id="submitIdea">
+            🚀 Share Idea
+        </button>
+
+        <p id="ideaMessage" class="message"></p>
+
+        <div id="ideasList">
+            Loading ideas...
+        </div>
+
+    </div>
+
+
+    <!-- LOGOUT -->
+
+    <button class="logout" id="logout">
+        🚪 Logout
+    </button>
+
+</div>
+
+
+<script type="module">
+
+import { initializeApp }
+from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
+
+import {
+    getAuth,
+    onAuthStateChanged,
+    signOut
+}
+from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
+
+import {
+    getFirestore,
+    doc,
+    setDoc,
+    getDoc,
+    getDocs,
+    addDoc,
+    updateDoc,
+    deleteDoc,
+    collection,
+    query,
+    orderBy,
+    serverTimestamp
+}
+from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
+
+
+/* ==========================================
+   FIREBASE
+========================================== */
+
+const firebaseConfig = {
+
+    apiKey:
+        "AIzaSyCOTV3I0bJj1H3Jc4CU-bb-WY3Q3947bSY",
+
+    authDomain:
+        "team-app-c7b71.firebaseapp.com",
+
+    projectId:
+        "team-app-c7b71",
+
+    storageBucket:
+        "team-app-c7b71.firebasestorage.app",
+
+    messagingSenderId:
+        "697657748554",
+
+    appId:
+        "1:697657748554:web:f20282dd2f537cc5b70ab3"
+};
+
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+let currentUser = null;
+
+let timerInterval = null;
+let timerSeconds = 0;
+let timerRunning = false;
+
+let selectedPeriod = "daily";
+
+
+/* ==========================================
+   PROGRESS CALCULATION
+========================================== */
+
+function calculateProgress(target, completed) {
+
+    target = Number(target) || 0;
+    completed = Number(completed) || 0;
+
+    if (target <= 0) {
+        return 0;
+    }
+
+    if (completed < 0) {
+        completed = 0;
+    }
+
+    const percentage =
+        Math.round((completed / target) * 100);
+
+    return Math.min(100, percentage);
+}
+
+
+/* ==========================================
+   DISPLAY PROGRESS
+========================================== */
+
+function displayProgress(target, completed) {
+
+    const percentage =
+        calculateProgress(target, completed);
+
+    document.getElementById("progressText")
+        .textContent =
+        percentage + "%";
+
+    document.getElementById("progressFill")
+        .style.width =
+        percentage + "%";
+
+    document.getElementById("myProgress")
+        .textContent =
+        percentage + "%";
+
+    document.getElementById("myCompleted")
+        .textContent =
+        Number(completed) || 0;
+
+    return percentage;
+}
+
+
+/* ==========================================
+   TIMER DISPLAY
+========================================== */
+
+function updateTimerDisplay() {
+
+    const hours =
+        Math.floor(timerSeconds / 3600);
+
+    const minutes =
+        Math.floor(
+            (timerSeconds % 3600) / 60
+        );
+
+    const seconds =
+        timerSeconds % 60;
+
+    document.getElementById("timer")
+        .textContent =
+            String(hours).padStart(2, "0") +
+            ":" +
+            String(minutes).padStart(2, "0") +
+            ":" +
+            String(seconds).padStart(2, "0");
+}
+
+
+/* ==========================================
+   START TIMER
+========================================== */
+
+document.getElementById("startTimer")
+.addEventListener("click", () => {
+
+    if (!currentUser) {
+        alert("Please login first.");
+        return;
+    }
+
+    if (timerRunning) {
+        return;
+    }
+
+    timerRunning = true;
+
+    document.getElementById("timerMessage")
+        .textContent =
+        "Timer started.";
+
+    document.getElementById("timerMessage")
+        .style.color =
+        "#65a9ff";
+
+    timerInterval =
+        setInterval(() => {
+
+            timerSeconds++;
+
+            updateTimerDisplay();
+
+        }, 1000);
+
+});
+
+
+/* ==========================================
+   STOP TIMER
+========================================== */
+
+document.getElementById("stopTimer")
+.addEventListener("click", async () => {
+
+    if (!currentUser) {
+        alert("Please login first.");
+        return;
+    }
+
+    if (!timerRunning) {
+
+        document.getElementById("timerMessage")
+            .textContent =
+            "Timer is not running.";
+
+        return;
+    }
+
+    clearInterval(timerInterval);
+
+    timerRunning = false;
+
+    const workType =
+        document.getElementById("workType").value;
+
+    const duration =
+        timerSeconds;
+
+    if (duration <= 0) {
+        timerSeconds = 0;
+        updateTimerDisplay();
+        return;
+    }
+
+    try {
+
+        await addDoc(
+            collection(db, "workSessions"),
+            {
+                userId:
+                    currentUser.uid,
+
+                email:
+                    currentUser.email,
+
+                workType:
+                    workType,
+
+                durationSeconds:
+                    duration,
+
+                createdAt:
+                    serverTimestamp(),
+
+                createdAtMs:
+                    Date.now()
+            }
+        );
+
+        document.getElementById("timerMessage")
+            .textContent =
+            "Work session saved successfully!";
+
+        document.getElementById("timerMessage")
+            .style.color =
+            "lightgreen";
+
+        await loadMyStats();
+
+        await loadHistory();
+
+    } catch (error) {
+
+        console.error(
+            "Timer save error:",
+            error
+        );
+
+        document.getElementById("timerMessage")
+            .textContent =
+            "Could not save work session.";
+
+        document.getElementById("timerMessage")
+            .style.color =
+            "red";
+    }
+
+    timerSeconds = 0;
+
+    updateTimerDisplay();
+
+});
+
+
+/* ==========================================
+   AUTH
+========================================== */
+
+onAuthStateChanged(auth, async (user) => {
+
+    if (!user) {
+
+        window.location.href =
+            "index.html";
+
+        return;
+    }
+
+    currentUser = user;
+
+    document.getElementById("userEmail")
+        .textContent =
+        user.email;
+
+    await loadMemberData();
+
+    await loadMyStats();
+
+    await loadLeaderboard();
+
+    await loadIdeas();
+
+    await loadHistory();
+
+});
+
+
+/* ==========================================
+   LOAD MEMBER DATA
+========================================== */
+
+async function loadMemberData() {
+
+    if (!currentUser) {
+        return;
+    }
+
+    try {
+
+        const memberRef =
+            doc(
+                db,
+                "members",
+                currentUser.uid
+            );
+
+        const memberSnap =
+            await getDoc(memberRef);
+
+        if (!memberSnap.exists()) {
+
+            displayProgress(0, 0);
+
+            return;
+        }
+
+        const data =
+            memberSnap.data();
+
+        const target =
+            Number(data.targetNumber) || 0;
+
+        const completed =
+            Number(data.completedNumber) || 0;
+
+        document.getElementById("target")
+            .value =
+            data.target || "";
+
+        document.getElementById("targetNumber")
+            .value =
+            target || "";
+
+        document.getElementById("completedNumber")
+            .value =
+            completed;
+
+        displayProgress(
+            target,
+            completed
+        );
+
+    } catch (error) {
+
+        console.error(
+            "Could not load member data:",
+            error
+        );
+    }
+}
+
+
+/* ==========================================
+   SAVE TARGET
+========================================== */
+
+document.getElementById("saveTarget")
+.addEventListener("click", async () => {
+
+    if (!currentUser) {
+
+        alert("Please login first.");
+
+        return;
+    }
+
+    const target =
+        document.getElementById("target")
+            .value
+            .trim();
+
+    const targetNumber =
+        Number(
+            document.getElementById("targetNumber")
+                .value
+        );
+
+    if (!target) {
+
+        alert(
+            "Please enter your target."
+        );
+
+        return;
+    }
+
+    if (
+        !Number.isFinite(targetNumber) ||
+        targetNumber < 1
+    ) {
+
+        alert(
+            "Please enter a valid target quantity."
+        );
+
+        return;
+    }
+
+    try {
+
+        await setDoc(
+            doc(
+                db,
+                "members",
+                currentUser.uid
+            ),
+            {
+                email:
+                    currentUser.email,
+
+                target:
+                    target,
+
+                targetNumber:
+                    targetNumber,
+
+                completedNumber:
+                    0,
+
+                updatedAt:
+                    serverTimestamp()
+            },
+            {
+                merge: true
+            }
+        );
+
+        await addProgressHistory(
+            targetNumber,
+            0
+        );
+
+        document.getElementById("completedNumber")
+            .value = 0;
+
+        displayProgress(
+            targetNumber,
+            0
+        );
+
+        document.getElementById("targetMessage")
+            .textContent =
+            "Target saved successfully!";
+
+        document.getElementById("targetMessage")
+            .style.color =
+            "lightgreen";
+
+        await loadLeaderboard();
+
+        await loadMyStats();
+
+        await loadHistory();
+
+    } catch (error) {
+
+        console.error(
+            "Save target error:",
+            error
+        );
+
+        document.getElementById("targetMessage")
+            .textContent =
+            "Could not save target.";
+
+        document.getElementById("targetMessage")
+            .style.color =
+            "red";
+    }
+
+});
+
+
+/* ==========================================
+   UPDATE PROGRESS
+========================================== */
+
+document.getElementById("completeTarget")
+.addEventListener("click", async () => {
+
+    if (!currentUser) {
+
+        alert("Please login first.");
+
+        return;
+    }
+
+    const target =
+        Number(
+            document.getElementById("targetNumber")
+                .value
+        );
+
+    const completed =
+        Number(
+            document.getElementById("completedNumber")
+                .value
+        );
+
+    if (
+        !Number.isFinite(target) ||
+        target < 1
+    ) {
+
+        alert(
+            "Please save your target first."
+        );
+
+        return;
+    }
+
+    if (
+        !Number.isFinite(completed) ||
+        completed < 0
+    ) {
+
+        alert(
+            "Please enter a valid completed quantity."
+        );
+
+        return;
+    }
+
+    try {
+
+        await setDoc(
+            doc(
+                db,
+                "members",
+                currentUser.uid
+            ),
+            {
+                completedNumber:
+                    completed,
+
+                progressUpdatedAt:
+                    serverTimestamp()
+            },
+            {
+                merge: true
+            }
+        );
+
+        await addProgressHistory(
+            target,
+            completed
+        );
+
+        displayProgress(
+            target,
+            completed
+        );
+
+        document.getElementById("targetMessage")
+            .textContent =
+            "Progress updated successfully!";
+
+        document.getElementById("targetMessage")
+            .style.color =
+            "lightgreen";
+
+        await loadMemberData();
+
+        await loadMyStats();
+
+        await loadLeaderboard();
+
+        await loadHistory();
+
+    } catch (error) {
+
+        console.error(
+            "Progress update error:",
+            error
+        );
+
+        document.getElementById("targetMessage")
+            .textContent =
+            "Could not update progress.";
+
+        document.getElementById("targetMessage")
+            .style.color =
+            "red";
+    }
+
+});
+
+
+/* ==========================================
+   ADD PROGRESS HISTORY
+========================================== */
+
+async function addProgressHistory(
+    target,
+    completed
+) {
+
+    if (!currentUser) {
+        return;
+    }
+
+    await addDoc(
+        collection(
+            db,
+            "progressHistory"
+        ),
+        {
+            userId:
+                currentUser.uid,
+
+            email:
+                currentUser.email,
+
+            targetNumber:
+                Number(target) || 0,
+
+            completedNumber:
+                Number(completed) || 0,
+
+            progress:
+                calculateProgress(
+                    target,
+                    completed
+                ),
+
+            createdAt:
+                serverTimestamp(),
+
+            createdAtMs:
+                Date.now()
+        }
+    );
+}
+
+
+/* ==========================================
+   MY STATS
+========================================== */
+
+async function loadMyStats() {
+
+    if (!currentUser) {
+        return;
+    }
+
+    try {
+
+        const memberSnap =
+            await getDoc(
+                doc(
+                    db,
+                    "members",
+                    currentUser.uid
+                )
+            );
+
+        let target = 0;
+        let completed = 0;
+        let rating = 0;
+
+        if (memberSnap.exists()) {
+
+            const data =
+                memberSnap.data();
+
+            target =
+                Number(data.targetNumber) || 0;
+
+            completed =
+                Number(data.completedNumber) || 0;
+
+            rating =
+                data.performance || 0;
+        }
+
+        const progress =
+            calculateProgress(
+                target,
+                completed
+            );
+
+        document.getElementById("myCompleted")
+            .textContent =
+            completed;
+
+        document.getElementById("myProgress")
+            .textContent =
+            progress + "%";
+
+        document.getElementById("myRating")
+            .textContent =
+            rating;
+
+        document.getElementById("progressText")
+            .textContent =
+            progress + "%";
+
+        document.getElementById("progressFill")
+            .style.width =
+            progress + "%";
+
+
+        const sessionsSnap =
+            await getDocs(
+                collection(
+                    db,
+                    "workSessions"
+                )
+            );
+
+        let totalSeconds = 0;
+
+        sessionsSnap.forEach(
+            (session) => {
+
+                const data =
+                    session.data();
+
+                if (
+                    data.userId ===
+                    currentUser.uid
+                ) {
+
+                    totalSeconds +=
+                        Number(
+                            data.durationSeconds
+                        ) || 0;
+                }
+
+            }
+        );
+
+        const hours =
+            (
+                totalSeconds / 3600
+            ).toFixed(1);
+
+        document.getElementById("myHours")
+            .textContent =
+            hours;
+
+    } catch (error) {
+
+        console.error(
+            "Could not load stats:",
+            error
+        );
+    }
+}
+
+
+/* ==========================================
+   GET DATE FROM SESSION
+========================================== */
+
+function getItemDate(data) {
+
+    if (data.createdAtMs) {
+        return new Date(
+            Number(data.createdAtMs)
+        );
+    }
+
+    if (
+        data.createdAt &&
+        typeof data.createdAt.toDate === "function"
+    ) {
+        return data.createdAt.toDate();
+    }
+
+    return null;
+}
+
+
+/* ==========================================
+   PERIOD CHECK
+========================================== */
+
+function isDateInPeriod(date, period) {
+
+    if (!date) {
+        return false;
+    }
+
+    if (period === "total") {
+        return true;
+    }
+
+    const now = new Date();
+
+    if (period === "daily") {
+
+        return (
+            date.getFullYear() === now.getFullYear() &&
+            date.getMonth() === now.getMonth() &&
+            date.getDate() === now.getDate()
+        );
+    }
+
+    if (period === "weekly") {
+
+        const current =
+            new Date(now);
+
+        current.setHours(
+            0, 0, 0, 0
+        );
+
+        const day =
+            current.getDay();
+
+        const diff =
+            day === 0 ? 6 : day - 1;
+
+        const weekStart =
+            new Date(current);
+
+        weekStart.setDate(
+            current.getDate() - diff
+        );
+
+        const weekEnd =
+            new Date(weekStart);
+
+        weekEnd.setDate(
+            weekStart.getDate() + 7
+        );
+
+        return (
+            date >= weekStart &&
+            date < weekEnd
+        );
+    }
+
+    if (period === "monthly") {
+
+        return (
+            date.getFullYear() === now.getFullYear() &&
+            date.getMonth() === now.getMonth()
+        );
+    }
+
+    if (period === "yearly") {
+
+        return (
+            date.getFullYear() === now.getFullYear()
+        );
+    }
+
+    return false;
+}
+
+
+/* ==========================================
+   FORMAT WORK TIME
+========================================== */
+
+function formatWorkTime(seconds) {
+
+    seconds =
+        Math.max(
+            0,
+            Number(seconds) || 0
+        );
+
+    const hours =
+        Math.floor(
+            seconds / 3600
+        );
+
+    const minutes =
+        Math.floor(
+            (seconds % 3600) / 60
+        );
+
+    return (
+        hours +
+        "h " +
+        minutes +
+        "m"
+    );
+}
+
+
+/* ==========================================
+   LOAD HISTORY
+========================================== */
+
+async function loadHistory() {
+
+    if (!currentUser) {
+        return;
+    }
+
+    try {
+
+        const sessionsSnap =
+            await getDocs(
+                collection(
+                    db,
+                    "workSessions"
+                )
+            );
+
+        let totalSeconds = 0;
+        let sessionCount = 0;
+
+        sessionsSnap.forEach(
+            (item) => {
+
+                const data =
+                    item.data();
+
+                if (
+                    data.userId !==
+                    currentUser.uid
+                ) {
+                    return;
+                }
+
+                const date =
+                    getItemDate(data);
+
+                if (
+                    isDateInPeriod(
+                        date,
+                        selectedPeriod
+                    )
+                ) {
+
+                    totalSeconds +=
+                        Number(
+                            data.durationSeconds
+                        ) || 0;
+
+                    sessionCount++;
+                }
+
+            }
+        );
+
+
+        /* ==================================
+           PROGRESS HISTORY
+        ================================== */
+
+        let progress =
+            0;
+
+        let completed =
+            0;
+
+        let target =
+            0;
+
+        const progressSnap =
+            await getDocs(
+                collection(
+                    db,
+                    "progressHistory"
+                )
+            );
+
+        const progressRecords = [];
+
+        progressSnap.forEach(
+            (item) => {
+
+                const data =
+                    item.data();
+
+                if (
+                    data.userId !==
+                    currentUser.uid
+                ) {
+                    return;
+                }
+
+                const date =
+                    getItemDate(data);
+
+                if (
+                    isDateInPeriod(
+                        date,
+                        selectedPeriod
+                    )
+                ) {
+
+                    progressRecords.push({
+                        date: date,
+                        target:
+                            Number(
+                                data.targetNumber
+                            ) || 0,
+
+                        completed:
+                            Number(
+                                data.completedNumber
+                            ) || 0,
+
+                        progress:
+                            Number(
+                                data.progress
+                            ) || 0
+                    });
+                }
+
+            }
+        );
+
+
+        /*
+         * सबसे नया progress record
+         */
+
+        progressRecords.sort(
+            (a, b) =>
+                b.date - a.date
+        );
+
+        if (
+            progressRecords.length > 0
+        ) {
+
+            const latest =
+                progressRecords[0];
+
+            target =
+                latest.target;
+
+            completed =
+                latest.completed;
+
+            progress =
+                latest.progress;
+        }
+
+
+        /*
+         * अगर Total में history record नहीं है,
+         * तो current member data इस्तेमाल करो.
+         */
+
+        if (
+            selectedPeriod === "total" &&
+            progressRecords.length === 0
+        ) {
+
+            const memberSnap =
+                await getDoc(
+                    doc(
+                        db,
+                        "members",
+                        currentUser.uid
+                    )
+                );
+
+            if (memberSnap.exists()) {
+
+                const data =
+                    memberSnap.data();
+
+                target =
+                    Number(
+                        data.targetNumber
+                    ) || 0;
+
+                completed =
+                    Number(
+                        data.completedNumber
+                    ) || 0;
+
+                progress =
+                    calculateProgress(
+                        target,
+                        completed
+                    );
+            }
+        }
+
+
+        document.getElementById(
+            "historyWorkTime"
+        ).textContent =
+            formatWorkTime(
+                totalSeconds
+            );
+
+        document.getElementById(
+            "historyProgress"
+        ).textContent =
+            progress + "%";
+
+        document.getElementById(
+            "historyCompleted"
+        ).textContent =
+            completed +
+            " / " +
+            target;
+
+        document.getElementById(
+            "historySessions"
+        ).textContent =
+            sessionCount;
+
+
+        const info =
+            document.getElementById(
+                "historyInfo"
+            );
+
+        const labels = {
+            daily:
+                "Today's work and progress",
+
+            weekly:
+                "This week's work and progress",
+
+            monthly:
+                "This month's work and progress",
+
+            yearly:
+                "This year's work and progress",
+
+            total:
+                "All-time total work and latest progress"
+        };
+
+        info.textContent =
+            labels[selectedPeriod];
+
+    } catch (error) {
+
+        console.error(
+            "History error:",
+            error
+        );
+
+        document.getElementById(
+            "historyInfo"
+        ).textContent =
+            "Could not load history. Check Firestore permissions.";
+    }
+}
+
+
+/* ==========================================
+   PERIOD BUTTONS
+========================================== */
+
+document
+.querySelectorAll(".period-btn")
+.forEach((button) => {
+
+    button.addEventListener(
+        "click",
+        async () => {
+
+            document
+            .querySelectorAll(
+                ".period-btn"
+            )
+            .forEach((btn) => {
+                btn.classList.remove(
+                    "active"
+                );
+            });
+
+            button.classList.add(
+                "active"
+            );
+
+            selectedPeriod =
+                button.dataset.period;
+
+            await loadHistory();
+        }
+    );
+
+});
+
+
+/* ==========================================
+   LEADERBOARD
+========================================== */
+
+async function loadLeaderboard() {
+
+    const leaderboard =
+        document.getElementById(
+            "leaderboard"
+        );
+
+    try {
+
+        const snapshot =
+            await getDocs(
+                collection(
+                    db,
+                    "members"
+                )
+            );
+
+        const members = [];
+
+        snapshot.forEach(
+            (item) => {
+
+                const data =
+                    item.data();
+
+                const target =
+                    Number(
+                        data.targetNumber
+                    ) || 0;
+
+                const completed =
+                    Number(
+                        data.completedNumber
+                    ) || 0;
+
+                const progress =
+                    calculateProgress(
+                        target,
+                        completed
+                    );
+
+                members.push({
+
+                    email:
+                        data.email ||
+                        "Member",
+
+                    completed:
+                        completed,
+
+                    progress:
+                        progress
+                });
+
+            }
+        );
+
+        members.sort(
+            (a, b) =>
+                b.progress -
+                a.progress
+        );
+
+        leaderboard.innerHTML = "";
+
+        if (members.length === 0) {
+
+            leaderboard.innerHTML =
+                "No team data yet.";
+
+            return;
+        }
+
+        members.forEach(
+            (member, index) => {
+
+                const div =
+                    document.createElement(
+                        "div"
+                    );
+
+                div.className =
+                    "leaderboard-item";
+
+                div.innerHTML = `
+
+                    <div>
+                        <span class="rank">
+                            #${index + 1}
+                        </span>
+
+                        &nbsp;
+
+                        ${member.email}
+                    </div>
+
+                    <div>
+                        ${member.progress}%
+                    </div>
+
+                `;
+
+                leaderboard.appendChild(
+                    div
+                );
+
+            }
+        );
+
+    } catch (error) {
+
+        console.error(
+            "Leaderboard error:",
+            error
+        );
+
+        leaderboard.innerHTML =
+            "Could not load leaderboard.";
+    }
+}
+
+
+/* ==========================================
+   SUBMIT IDEA
+========================================== */
+
+document.getElementById("submitIdea")
+.addEventListener("click", async () => {
+
+    if (!currentUser) {
+
+        alert("Please login first.");
+
+        return;
+    }
+
+    const idea =
+        document.getElementById("idea")
+            .value
+            .trim();
+
+    const message =
+        document.getElementById(
+            "ideaMessage"
+        );
+
+    if (!idea) {
+
+        message.textContent =
+            "Please write an idea.";
+
+        message.style.color =
+            "red";
+
+        return;
+    }
+
+    try {
+
+        await addDoc(
+            collection(
+                db,
+                "ideas"
+            ),
+            {
+                userId:
+                    currentUser.uid,
+
+                email:
+                    currentUser.email,
+
+                idea:
+                    idea,
+
+                createdAt:
+                    serverTimestamp()
+            }
+        );
+
+        document.getElementById("idea")
+            .value = "";
+
+        message.textContent =
+            "Idea shared with the team!";
+
+        message.style.color =
+            "lightgreen";
+
+        await loadIdeas();
+
+    } catch (error) {
+
+        console.error(
+            "Idea error:",
+            error
+        );
+
+        message.textContent =
+            "Could not share idea.";
+
+        message.style.color =
+            "red";
+    }
+
+});
+
+
+/* ==========================================
+   EDIT IDEA
+========================================== */
+
+async function editIdea(
+    ideaId,
+    oldIdea
+) {
+
+    if (!currentUser) {
+        return;
+    }
+
+    const newIdea =
+        prompt(
+            "Edit your idea:",
+            oldIdea
+        );
+
+    if (newIdea === null) {
+        return;
+    }
+
+    const cleanedIdea =
+        newIdea.trim();
+
+    if (!cleanedIdea) {
+
+        alert(
+            "Idea cannot be empty."
+        );
+
+        return;
+    }
+
+    try {
+
+        await updateDoc(
+            doc(
+                db,
+                "ideas",
+                ideaId
+            ),
+            {
+                idea:
+                    cleanedIdea,
+
+                updatedAt:
+                    serverTimestamp()
+            }
+        );
+
+        await loadIdeas();
+
+    } catch (error) {
+
+        console.error(
+            "Edit idea error:",
+            error
+        );
+
+        alert(
+            "Could not edit idea."
+        );
+    }
+}
+
+
+/* ==========================================
+   DELETE IDEA
+========================================== */
+
+async function deleteIdea(
+    ideaId
+) {
+
+    if (!currentUser) {
+        return;
+    }
+
+    const confirmDelete =
+        confirm(
+            "Are you sure you want to delete this idea?"
+        );
+
+    if (!confirmDelete) {
+        return;
+    }
+
+    try {
+
+        await deleteDoc(
+            doc(
+                db,
+                "ideas",
+                ideaId
+            )
+        );
+
+        await loadIdeas();
+
+    } catch (error) {
+
+        console.error(
+            "Delete idea error:",
+            error
+        );
+
+        alert(
+            "Could not delete idea."
+        );
+    }
+}
+
+
+/* ==========================================
+   LOAD IDEAS
+========================================== */
+
+async function loadIdeas() {
+
+    const ideasList =
+        document.getElementById(
+            "ideasList"
+        );
+
+    try {
+
+        const q =
+            query(
+                collection(
+                    db,
+                    "ideas"
+                ),
+                orderBy(
+                    "createdAt",
+                    "desc"
+                )
+            );
+
+        const snapshot =
+            await getDocs(q);
+
+        ideasList.innerHTML = "";
+
+        if (snapshot.empty) {
+
+            ideasList.innerHTML =
+                "No ideas yet.";
+
+            return;
+        }
+
+        snapshot.forEach(
+            (item) => {
+
+                const data =
+                    item.data();
+
+                const div =
+                    document.createElement(
+                        "div"
+                    );
+
+                div.className =
+                    "idea-item";
+
+                const email =
+                    document.createElement(
+                        "div"
+                    );
+
+                email.className =
+                    "idea-email";
+
+                email.textContent =
+                    data.email ||
+                    "Team Member";
+
+                const text =
+                    document.createElement(
+                        "div"
+                    );
+
+                text.className =
+                    "idea-text";
+
+                text.textContent =
+                    data.idea || "";
+
+                div.appendChild(email);
+                div.appendChild(text);
+
+
+                /*
+                 * सिर्फ idea का owner
+                 * Edit/Delete कर सकता है
+                 */
+
+                if (
+                    currentUser &&
+                    data.userId ===
+                    currentUser.uid
+                ) {
+
+                    const actions =
+                        document.createElement(
+                            "div"
+                        );
+
+                    actions.className =
+                        "idea-actions";
+
+
+                    const editButton =
+                        document.createElement(
+                            "button"
+                        );
+
+                    editButton.className =
+                        "edit-btn";
+
+                    editButton.textContent =
+                        "✏️ Edit";
+
+                    editButton.addEventListener(
+                        "click",
+                        () => {
+                            editIdea(
+                                item.id,
+                                data.idea || ""
+                            );
+                        }
+                    );
+
+
+                    const deleteButton =
+                        document.createElement(
+                            "button"
+                        );
+
+                    deleteButton.className =
+                        "delete-btn";
+
+                    deleteButton.textContent =
+                        "🗑️ Delete";
+
+                    deleteButton.addEventListener(
+                        "click",
+                        () => {
+                            deleteIdea(
+                                item.id
+                            );
+                        }
+                    );
+
+                    actions.appendChild(
+                        editButton
+                    );
+
+                    actions.appendChild(
+                        deleteButton
+                    );
+
+                    div.appendChild(
+                        actions
+                    );
+                }
+
+
+                ideasList.appendChild(
+                    div
+                );
+
+            }
+        );
+
+    } catch (error) {
+
+        console.error(
+            "Ideas error:",
+            error
+        );
+
+        ideasList.innerHTML =
+            "Could not load ideas.";
+    }
+}
+
+
+/* ==========================================
+   LOGOUT
+========================================== */
+
+document.getElementById("logout")
+.addEventListener("click", async () => {
+
+    try {
+
+        await signOut(auth);
+
+        window.location.href =
+            "index.html";
+
+    } catch (error) {
+
+        console.error(
+            "Logout error:",
+            error
+        );
+
+        alert(
+            "Logout failed."
+        );
+    }
+
+});
+
+</script>
+
+</body>
+</html>

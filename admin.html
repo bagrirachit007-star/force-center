@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title> TEAM APP | Admin</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #0b0b0f;
+            color: white;
+            min-height: 100vh;
+        }
+
+        header {
+            background: #15151d;
+            padding: 25px;
+            text-align: center;
+            border-bottom: 1px solid #292934;
+        }
+
+        header h1 {
+            font-size: 28px;
+        }
+
+        header p {
+            color: #aaa;
+            margin-top: 7px;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: auto;
+            padding: 25px 20px;
+        }
+
+        .card {
+            background: #171720;
+            border: 1px solid #292934;
+            border-radius: 15px;
+            padding: 22px;
+            margin-bottom: 20px;
+        }
+
+        .card h2 {
+            margin-bottom: 18px;
+        }
+
+        .member {
+            background: #101017;
+            border: 1px solid #292934;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 12px;
+        }
+
+        .member h3 {
+            margin-bottom: 8px;
+        }
+
+        .member p {
+            color: #aaa;
+            margin: 5px 0;
+        }
+
+        .progress-box {
+            background: #292934;
+            height: 10px;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-top: 10px;
+        }
+
+        .progress {
+            height: 100%;
+            background: #1473e6;
+        }
+
+        .idea {
+            background: #101017;
+            border: 1px solid #292934;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 10px;
+        }
+
+        .idea small {
+            color: #777;
+        }
+
+        button {
+            width: 100%;
+            padding: 13px;
+            border: none;
+            border-radius: 8px;
+            background: #1473e6;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            opacity: 0.85;
+        }
+
+        .logout {
+            background: #e53935;
+        }
+
+        .loading {
+            color: #aaa;
+        }
+
+        .error {
+            color: #ff5555;
+        }
+
+        .success {
+            color: lightgreen;
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h1>FORCE CENTER</h1>
+    <p>OWNER / ADMIN PANEL</p>
+</header>
+
+
+<div class="container">
+
+    <!-- ADMIN INFO -->
+
+    <div class="card">
+
+        <h2>👑 Admin</h2>
+
+        <p id="adminEmail">
+            Checking Admin account...
+        </p>
+
+    </div>
+
+
+    <!-- TEAM MEMBERS -->
+
+    <div class="card">
+
+        <h2>👥 Team Members</h2>
+
+        <div id="membersList">
+            <p class="loading">
+                Loading team members...
+            </p>
+        </div>
+
+    </div>
+
+
+    <!-- TEAM IDEAS -->
+
+    <div class="card">
+
+        <h2>💡 Team Ideas</h2>
+
+        <div id="ideasList">
+            <p class="loading">
+                Loading ideas...
+            </p>
+        </div>
+
+    </div>
+
+
+    <!-- LOGOUT -->
+
+    <button
+        class="logout"
+        id="logout">
+        🚪 Logout
+    </button>
+
+</div>
+
+
+<script type="module">
+
+import { initializeApp }
+from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
+
+import {
+    getAuth,
+    onAuthStateChanged,
+    signOut
+}
+from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
+
+import {
+    getFirestore,
+    collection,
+    getDocs,
+    query,
+    orderBy
+}
+from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
+
+
+/* FIREBASE CONFIG */
+
+const firebaseConfig = {
+
+    apiKey:
+        "AIzaSyCOTV3I0bJj1H3Jc4CU-bb-WY3Q3947bSY",
+
+    authDomain:
+        "team-app-c7b71.firebaseapp.com",
+
+    projectId:
+        "team-app-c7b71",
+
+    storageBucket:
+        "team-app-c7b71.firebasestorage.app",
+
+    messagingSenderId:
+        "697657748554",
+
+    appId:
+        "1:697657748554:web:f20282dd2f537cc5b70ab3"
+};
+
+
+/* START FIREBASE */
+
+const app =
+    initializeApp(firebaseConfig);
+
+const auth =
+    getAuth(app);
+
+const db =
+    getFirestore(app);
+
+
+/* YOUR ADMIN / OWNER UID */
+
+const ADMIN_UID =
+    "T3GslRpLXXMNvWhi4VfElaEXh363";
+
+
+/* CHECK LOGIN */
+
+onAuthStateChanged(auth, async (user) => {
+
+    if (!user) {
+
+        window.location.href =
+            "index.html";
+
+        return;
+    }
+
+
+    console.log(
+        "Logged in UID:",
+        user.uid
+    );
+
+
+    /* ADMIN CHECK */
+
+    if (user.uid !== ADMIN_UID) {
+
+        document.body.innerHTML = `
+
+            <div style="
+                min-height:100vh;
+                background:#0b0b0f;
+                color:white;
+                display:flex;
+                justify-content:center;
+                align-items:center;
+                text-align:center;
+                font-family:Arial;
+                padding:20px;
+            ">
+
+                <div>
+
+                    <h1>🚫 Access Denied</h1>
+
+                    <p style="
+                        color:#aaa;
+                        margin-top:12px;
+                    ">
+                        This account is not the Admin account.
+                    </p>
+
+                    <p style="
+                        color:#777;
+                        margin-top:10px;
+                        font-size:13px;
+                    ">
+                        Logged in UID:
+                        ${user.uid}
+                    </p>
+
+                    <button
+                        onclick="location.href='dashboard.html'"
+                        style="
+                            margin-top:20px;
+                            padding:12px 25px;
+                            border:0;
+                            border-radius:8px;
+                            cursor:pointer;
+                        "
+                    >
+                        Go to Member Dashboard
+                    </button>
+
+                </div>
+
+            </div>
+
+        `;
+
+        return;
+    }
+
+
+    /* ADMIN LOGIN SUCCESS */
+
+    document.getElementById(
+        "adminEmail"
+    ).textContent =
+        "Logged in as Admin: " +
+        user.email;
+
+
+    /* LOAD DATA */
+
+    await loadMembers();
+
+    await loadIdeas();
+
+});
+
+
+/* LOAD MEMBERS */
+
+async function loadMembers() {
+
+    const membersList =
+        document.getElementById(
+            "membersList"
+        );
+
+
+    try {
+
+        const snapshot =
+            await getDocs(
+                collection(
+                    db,
+                    "members"
+                )
+            );
+
+
+        if (snapshot.empty) {
+
+            membersList.innerHTML = `
+                <p class="loading">
+                    No team members found.
+                </p>
+            `;
+
+            return;
+        }
+
+
+        let html = "";
+
+
+        snapshot.forEach((docSnap) => {
+
+            const data =
+                docSnap.data();
+
+
+            const email =
+                data.email ||
+                "Team Member";
+
+
+            const target =
+                data.target ||
+                "No target";
+
+
+            const completed =
+                Number(
+                    data.completed || 0
+                );
+
+
+            const quantity =
+                Number(
+                    data.quantity || 0
+                );
+
+
+            let percent = 0;
+
+
+            if (quantity > 0) {
+
+                percent =
+                    Math.round(
+                        (
+                            completed /
+                            quantity
+                        ) * 100
+                    );
+
+            }
+
+
+            if (percent > 100) {
+                percent = 100;
+            }
+
+
+            html += `
+
+                <div class="member">
+
+                    <h3>
+                        👤 ${email}
+                    </h3>
+
+                    <p>
+                        🎯 Target:
+                        ${target}
+                    </p>
+
+                    <p>
+                        📊 Progress:
+                        ${completed}
+                        /
+                        ${quantity}
+                        (${percent}%)
+                    </p>
+
+                    <div class="progress-box">
+
+                        <div
+                            class="progress"
+                            style="
+                                width:${percent}%;
+                            "
+                        ></div>
+
+                    </div>
+
+                </div>
+
+            `;
+
+        });
+
+
+        membersList.innerHTML =
+            html;
+
+
+    } catch (error) {
+
+        console.error(error);
+
+        membersList.innerHTML = `
+
+            <p class="error">
+                Could not load members.
+            </p>
+
+        `;
+
+    }
+
+}
+
+
+/* LOAD IDEAS */
+
+async function loadIdeas() {
+
+    const ideasList =
+        document.getElementById(
+            "ideasList"
+        );
+
+
+    try {
+
+        const ideasQuery =
+            query(
+                collection(
+                    db,
+                    "ideas"
+                ),
+                orderBy(
+                    "createdAt",
+                    "desc"
+                )
+            );
+
+
+        const snapshot =
+            await getDocs(
+                ideasQuery
+            );
+
+
+        if (snapshot.empty) {
+
+            ideasList.innerHTML = `
+
+                <p class="loading">
+                    No ideas yet.
+                </p>
+
+            `;
+
+            return;
+        }
+
+
+        let html = "";
+
+
+        snapshot.forEach((docSnap) => {
+
+            const data =
+                docSnap.data();
+
+
+            html += `
+
+                <div class="idea">
+
+                    <p>
+                        💡 ${data.idea || ""}
+                    </p>
+
+                    <small>
+                        By:
+                        ${data.email || "Team Member"}
+                    </small>
+
+                </div>
+
+            `;
+
+        });
+
+
+        ideasList.innerHTML =
+            html;
+
+
+    } catch (error) {
+
+        console.error(error);
+
+        ideasList.innerHTML = `
+
+            <p class="error">
+                Could not load ideas.
+            </p>
+
+        `;
+
+    }
+
+}
+
+
+/* LOGOUT */
+
+document
+    .getElementById("logout")
+    .addEventListener(
+        "click",
+        async () => {
+
+            try {
+
+                await signOut(auth);
+
+                window.location.href =
+                    "index.html";
+
+            } catch (error) {
+
+                console.error(error);
+
+                alert(
+                    "Logout failed."
+                );
+
+            }
+
+        }
+    );
+
+</script>
+
+</body>
+
+</html>
